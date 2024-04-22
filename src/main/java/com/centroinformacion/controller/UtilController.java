@@ -122,7 +122,6 @@ public class UtilController {
 		return dataCatalogoService.listaDataCatalogo(AppSettings.CATALOGO_12_TEMA_DE_TESIS);
 	}
 	
-	//Metodo para listar las editoriales - Garcia
 	@GetMapping("/listaEditorial")
 	@ResponseBody
 	public List<Editorial> listaEdtorial() {
