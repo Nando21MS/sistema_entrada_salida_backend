@@ -21,4 +21,5 @@ public class TesisServiceImp implements TesisService{
 	public List<Tesis> listaTesis() {
 		return repository.findAll();
 	}
+	
 }

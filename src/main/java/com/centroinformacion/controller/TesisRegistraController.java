@@ -52,4 +52,5 @@ public class TesisRegistraController {
 		}
 		return ResponseEntity.ok(salida);
 	}
+	
 }
