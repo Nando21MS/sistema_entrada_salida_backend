@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.centroinformacion.entity.Editorial;
 import com.centroinformacion.service.EditorialService;
 import com.centroinformacion.util.AppSettings;
-
 @RestController
 @RequestMapping("/url/editorial")
 @CrossOrigin(origins = AppSettings.URL_CROSS_ORIGIN)
