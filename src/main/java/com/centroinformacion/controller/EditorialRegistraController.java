@@ -18,9 +18,8 @@ import com.centroinformacion.entity.Editorial;
 import com.centroinformacion.service.EditorialService;
 import com.centroinformacion.util.AppSettings;
 
-
 @RestController
-@RequestMapping("/url/Editorial")
+@RequestMapping("/url/editorial")
 @CrossOrigin(origins = AppSettings.URL_CROSS_ORIGIN)
 public class EditorialRegistraController {
 	@Autowired
