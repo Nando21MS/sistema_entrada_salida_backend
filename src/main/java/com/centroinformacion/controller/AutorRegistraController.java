@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,6 @@ public class AutorRegistraController {
 	@ResponseBody
 	public ResponseEntity<?> inserta(@RequestBody Autor obj){
 		HashMap<String, Object> salida = new HashMap<>();
-		
 		obj.setFechaActualizacion(new Date());
 		obj.setFechaRegistro(new Date());
 		obj.setEstado(AppSettings.ACTIVO);
@@ -48,8 +48,10 @@ public class AutorRegistraController {
 		if (objSalida == null) {
 			salida.put("mensaje","Error en el registro");
 		}else {
-			salida.put("mensaje","Se registró la Ejemplo con el ID ==> " + objSalida.getIdAutor());
+			salida.put("mensaje","Se registró el Autor con el ID ==> " + objSalida.getIdAutor());
 		}
 		return ResponseEntity.ok(salida);
 	}
+	
+	
 }
