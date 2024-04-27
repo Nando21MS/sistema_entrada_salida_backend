@@ -25,7 +25,7 @@ import com.centroinformacion.util.AppSettings;
 @RequestMapping("/url/libro")
 @CrossOrigin(origins = AppSettings.URL_CROSS_ORIGIN)
 	public class LibroRegistraController {
-
+/*
 
 	@Autowired
 	private LibroService LibroService;
@@ -78,5 +78,5 @@ import com.centroinformacion.util.AppSettings;
 	    return LibroService;
 	}
 	
-	
+	*/
 }

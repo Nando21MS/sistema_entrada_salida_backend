@@ -10,7 +10,7 @@ import com.centroinformacion.repository.LibroRepository;
 
 @Service // Añade esta anotación
 public class LibroServiceImp implements LibroService{
-	
+	/*
 	@Autowired	
 	private LibroRepository repository;
 	
@@ -33,5 +33,5 @@ public class LibroServiceImp implements LibroService{
 			return false;
 		}
 	}
-
+*/
 }
