@@ -23,6 +23,6 @@ public class LibroServiceImp implements LibroService{
 	public List<Libro> listaLibro() {
 		return repository.findAll();
 	}
-
+ 
 
 }

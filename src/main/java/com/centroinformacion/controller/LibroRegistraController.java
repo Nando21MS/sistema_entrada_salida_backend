@@ -53,6 +53,6 @@ import com.centroinformacion.util.AppSettings;
 		return ResponseEntity.ok(salida);
 	}
 	
-
+ 
 	
 }
