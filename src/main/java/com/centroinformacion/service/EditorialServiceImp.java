@@ -9,10 +9,7 @@ public class EditorialServiceImp implements EditorialService {
 
 	@Autowired
 	private EditorialRepository repository;
-	@Override
-	public Editorial insertaActualizaEditorial(Editorial obj) {
-		return repository.save(obj);
-	}
+
 	@Override
 	public List<Editorial> listaTodos() {
 		return repository.findByOrderByRazonSocialAsc();
