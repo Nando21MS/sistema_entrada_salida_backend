@@ -21,14 +21,12 @@ import com.centroinformacion.util.AppSettings;
 public class EditorialRegistraController {
 	@Autowired
 	private EditorialService editorialService;
-	
 	@GetMapping
 	@ResponseBody
 	public ResponseEntity<List<Editorial>> listaeEditorial(){
 		List<Editorial> lista = editorialService.listaTodos();
 		return ResponseEntity.ok(lista);
 	}
-	
 	@PostMapping
 	@ResponseBody
 	public ResponseEntity<?> inserta(@RequestBody Editorial obj){

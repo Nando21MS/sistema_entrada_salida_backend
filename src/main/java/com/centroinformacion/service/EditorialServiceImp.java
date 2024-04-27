@@ -17,6 +17,4 @@ public class EditorialServiceImp implements EditorialService {
 	public List<Editorial> listaTodos() {
 		return repository.findByOrderByRazonSocialAsc();
 	}
-
-	
 }
