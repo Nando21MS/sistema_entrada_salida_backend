@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.centroinformacion.entity.Sala;
 import com.centroinformacion.service.SalaService;
 import com.centroinformacion.util.AppSettings;
-//AUTOR : SIFUENTES GAMBINI CESAR JAREN
+//AUTOR : SIFUENTES GAMBINI CESAR JAREN .
 
 @RestController
 @RequestMapping("/url/sala")
