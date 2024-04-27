@@ -34,6 +34,7 @@ public class TesisRegistraController {
 		return ResponseEntity.ok(lista);
 	}
 	
+	
 	@PostMapping
 	@ResponseBody
 	public ResponseEntity<?> inserta(@RequestBody Tesis obj){

@@ -10,7 +10,6 @@ import com.centroinformacion.repository.TesisRepository;
 
 @Service
 public class TesisServiceImp implements TesisService{
-	
 	@Autowired	
 	private TesisRepository repository;
 	
@@ -23,5 +22,4 @@ public class TesisServiceImp implements TesisService{
 	public List<Tesis> listaTesis() {
 		return repository.findAll();
 	}
-	
 }
