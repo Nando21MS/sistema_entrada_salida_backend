@@ -29,7 +29,6 @@ public class ProveedorRegistraController {
 		List<Proveedor> lista = ProveedorService.listaTodos();
 		return ResponseEntity.ok(lista);
 	}
-	
 	@PostMapping
 	@ResponseBody
 	public ResponseEntity<?> inserta(@RequestBody Proveedor obj){
@@ -37,9 +36,7 @@ public class ProveedorRegistraController {
 		
 		obj.setFechaActualizacion(new Date());
 		obj.setFechaRegistro(new Date());
-		obj.setEstado(AppSettings.ACTIVO);
-		
-		
+		obj.setEstado(AppSettings.ACTIVO);	
 		Proveedor objSalida = ProveedorService.insertaActualizaProveedor(obj);
 		if (objSalida == null) {
 			salida.put("mensaje","Error en el registro");
