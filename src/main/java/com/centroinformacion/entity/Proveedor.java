@@ -36,7 +36,7 @@ public class Proveedor {
 	private int estado;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	private Date fechaRegistro;
 
 	@Temporal(TemporalType.TIMESTAMP)
