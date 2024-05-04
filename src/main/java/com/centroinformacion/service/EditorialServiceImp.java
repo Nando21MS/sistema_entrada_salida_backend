@@ -20,7 +20,5 @@ public class EditorialServiceImp implements EditorialService {
 	@Override
 	public List<Editorial> listaTodos() {
 		return repository.findByOrderByRazonSocialAsc();
-	}
-
-	
+	}	
 }
