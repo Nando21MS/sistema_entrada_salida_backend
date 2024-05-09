@@ -2,9 +2,9 @@ package com.centroinformacion.service;
 
 import java.util.List;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.centroinformacion.entity.Proveedor;
 import com.centroinformacion.repository.ProveedorRepository;
 
@@ -20,6 +20,22 @@ public class ProveedorServiceImp implements ProveedorService {
 	@Override
 	public List<Proveedor> listaTodos() {
 		return repository.findByOrderByRazonsocialAsc();
+	}
+	@Override
+	public List<Proveedor> listaProveedorPorRazonSocialLike(String razonsocial) {
+		return repository.listaPorRazonSocialLike(razonsocial);
+	}
+	@Override
+	public void eliminaProveedor(int idProveedor) {
+        repository.deleteById(idProveedor);		
+	}
+	@Override
+	public List<Proveedor> listaProveedorPorRazonSocialIgualRegistra(String razonsocial) {
+		return repository.listaPorRazonSocialIgualRegistra(razonsocial);
+	}
+	@Override
+	public List<Proveedor> listaProveedorPorRazonSocialIgualActualiza(String razonsocial, int idProveedor) {
+		return repository.listaPorRazonSocialIgualActualiza(razonsocial, idProveedor);
 	}
 	
 }
