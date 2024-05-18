@@ -6,6 +6,16 @@ import com.centroinformacion.entity.Autor;
 
 public interface AutorService {
 
+	// Para el crud
 	public abstract Autor insertaActualizaAutor(Autor obj);
+	public abstract List<Autor> listaAutorPorNombresLike(String nombres);
+	public abstract void eliminaAutor(int idAutor);
 	public abstract List<Autor> listaAutor();
+
+	// Validaciones Para Registrar
+	public abstract List<Autor> listaAutorPorNombresIgualRegistra(String nombres);
+
+	// Validaciones Para Actualizar
+	public abstract List<Autor> listaAutorPorNombresIgualActualiza(String nombres, int idAutor);
+
 }

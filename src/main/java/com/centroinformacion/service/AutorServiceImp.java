@@ -23,5 +23,26 @@ public class AutorServiceImp implements AutorService {
 	public List<Autor> listaAutor() {
 		return repository.findAll();
 	}
+
+	@Override
+	public List<Autor> listaAutorPorNombresLike(String nombres) {
+		return repository.listaPorNombresLike(nombres);
+	}
+
+	@Override
+	public void eliminaAutor(int idAutor) {
+		repository.deleteById(idAutor);
+		
+	}
+
+	@Override
+	public List<Autor> listaAutorPorNombresIgualRegistra(String nombres) {
+		return repository.listaPorNombresIgualRegistra(nombres);
+	}
+
+	@Override
+	public List<Autor> listaAutorPorNombresIgualActualiza(String nombres, int idAutor) {
+		return repository.listaPorNombresIgualActualiza(nombres, idAutor);
+	}
 	
 }
