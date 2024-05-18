@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.centroinformacion.entity.Editorial;
@@ -48,6 +49,12 @@ public class EditorialCrudController {
 			obj.setFechaActualizacion(new Date());
 			obj.setFechaRegistro(new Date());
 			obj.setEstado(AppSettings.ACTIVO);
+			List<Editorial> lstBusquedaRuc = editorialService.listaEditorialPorRucIgualRegistra(obj.getRuc());
+	        if (!lstBusquedaRuc.isEmpty()) {
+	            salida.put("mensaje", "El RUC " + obj.getRuc() + " ya existe");
+	            return ResponseEntity.ok(salida);
+	        }
+
 			List<Editorial> lstBusqueda = editorialService
 					.listaEditorialPorRazonSocialIgualRegistra(obj.getRazonSocial());
 			if (!lstBusqueda.isEmpty()) {
@@ -70,27 +77,39 @@ public class EditorialCrudController {
 	@PutMapping("/actualizaEditorial")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> actualizaEditorial(@RequestBody Editorial obj) {
-		Map<String, Object> salida = new HashMap<>();
-		try {
-			obj.setFechaActualizacion(new Date());
-			List<Editorial> lstBusqueda = editorialService
-					.listaEditorialPorRazonSocialIgualActualiza(obj.getRazonSocial(), obj.getIdEditorial());
-			if (!lstBusqueda.isEmpty()) {
-				salida.put("mensaje", "La Editorial " + obj.getRazonSocial() + " ya existe");
-				return ResponseEntity.ok(salida);
-			}
-			Editorial objSalida = editorialService.insertaActualizaEditorial(obj);
-			if (objSalida == null) {
-				salida.put("mensaje", AppSettings.MENSAJE_ACT_ERROR);
-			} else {
-				salida.put("mensaje", AppSettings.MENSAJE_ACT_EXITOSO);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			salida.put("mensaje", AppSettings.MENSAJE_ACT_ERROR);
-		}
-		return ResponseEntity.ok(salida);
+	    Map<String, Object> salida = new HashMap<>();
+	    try {
+	        obj.setFechaActualizacion(new Date());
+	        
+	        // Verifica si la razón social ya existe
+	        List<Editorial> lstBusquedaRazonSocial = editorialService
+	                .listaEditorialPorRazonSocialIgualActualiza(obj.getRazonSocial(), obj.getIdEditorial());
+	        if (!lstBusquedaRazonSocial.isEmpty()) {
+	            salida.put("mensaje", "La Editorial " + obj.getRazonSocial() + " ya existe");
+	            return ResponseEntity.ok(salida);
+	        }
+	        
+	        // Verifica si el RUC ya existe
+	        List<Editorial> lstBusquedaRuc = editorialService.
+	                listaEditorialRucIgualActualiza(obj.getRuc(), obj.getIdEditorial());
+	        if (!lstBusquedaRuc.isEmpty()) {
+	            salida.put("mensaje", "El RUC " + obj.getRuc() + " ya existe");
+	            return ResponseEntity.ok(salida);
+	        }
+
+	        Editorial objSalida = editorialService.insertaActualizaEditorial(obj);
+	        if (objSalida == null) {
+	            salida.put("mensaje", AppSettings.MENSAJE_ACT_ERROR);
+	        } else {
+	            salida.put("mensaje", AppSettings.MENSAJE_ACT_EXITOSO);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        salida.put("mensaje", AppSettings.MENSAJE_ACT_ERROR);
+	    }
+	    return ResponseEntity.ok(salida);
 	}
+
 
 	@DeleteMapping("/eliminaEditorial/{id}")
 	@ResponseBody

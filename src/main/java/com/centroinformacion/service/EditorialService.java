@@ -14,7 +14,7 @@ public interface EditorialService {
 	public abstract List<Editorial> listaTodos();
 
 	public abstract List<Editorial> listaEditorialPorRazonSocialIgualRegistra(String razonSocial);
-
+	public abstract List<Editorial> listaEditorialPorRucIgualRegistra(String ruc);
 	public abstract List<Editorial> listaEditorialPorRazonSocialIgualActualiza(String razonSocial, int idEditorial);
-
+	public abstract List<Editorial> listaEditorialRucIgualActualiza(String ruc, int idEditorial);
 }

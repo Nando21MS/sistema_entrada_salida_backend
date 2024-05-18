@@ -18,4 +18,9 @@ public interface EditorialRepository extends JpaRepository<Editorial, Integer>{
 	public abstract List<Editorial> listaPorRazonSocialIgualActualiza(String razonSocial, int idEditorial);
 	
 	public abstract List<Editorial> findByOrderByRazonSocialAsc();
+	@Query("select e from Editorial e where e.ruc = ?1 ")
+	public abstract List<Editorial> listaPorRucIgualRegistra(String ruc);
+	
+	@Query("select e from Editorial e where e.ruc = ?1 and e.idEditorial != ?2 ")
+	public abstract List<Editorial> listaEditorialPorRucIgualActualiza(String ruc, int idEditorial);
 }
