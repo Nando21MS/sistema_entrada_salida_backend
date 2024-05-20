@@ -10,6 +10,7 @@ import com.centroinformacion.repository.TesisRepository;
 
 @Service
 public class TesisServiceImp implements TesisService{
+	
 	@Autowired	
 	private TesisRepository repository;
 	
@@ -21,5 +22,26 @@ public class TesisServiceImp implements TesisService{
 	@Override
 	public List<Tesis> listaTesis() {
 		return repository.findAll();
+	}
+
+	@Override
+	public List<Tesis> listaTesisPorTituloLike(String titulo) {
+		return repository.listaPorTituloLike(titulo);
+	}
+
+	@Override
+	public void eliminaTesis(int idTesis) {
+		repository.deleteById(idTesis);
+		
+	}
+
+	@Override
+	public List<Tesis> listaTesisPorTituloIgualRegistra(String titulo) {
+		return repository.listaPorTituloIgualRegistra(titulo);
+	}
+
+	@Override
+	public List<Tesis> listaTesisPorTituloIgualActualiza(String titulo, int idTesis) {
+		return repository.listaPorTituloIgualActualiza(titulo, idTesis);
 	}
 }
