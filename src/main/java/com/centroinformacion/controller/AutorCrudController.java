@@ -54,7 +54,7 @@ public class AutorCrudController {
 			
 			List<Autor> lstBusqueda = autorService.listaAutorPorNombresIgualRegistra(obj.getNombres());
 			if(!lstBusqueda.isEmpty()) {
-				salida.put("mensaje", "La Revista " + obj.getNombres() + " ya existe");
+				salida.put("mensaje", "El Autor " + obj.getNombres() + " ya existe");
 				return ResponseEntity.ok(salida);
 			}
 			
