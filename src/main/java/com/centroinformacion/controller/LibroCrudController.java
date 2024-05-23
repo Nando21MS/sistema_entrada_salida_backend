@@ -47,7 +47,7 @@ public class LibroCrudController {
 	@ResponseBody
 	public ResponseEntity<?> insertaLibro(@RequestBody Libro obj) {
 		Map<String, Object> salida = new HashMap<>();
-		try {
+		try {	
 			obj.setIdLibro(0);
 			obj.setFechaActualizacion(new Date());
 			obj.setFechaRegistro(new Date());
