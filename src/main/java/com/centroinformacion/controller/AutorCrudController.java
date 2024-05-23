@@ -69,7 +69,7 @@ public class AutorCrudController {
 	        // Verificar número de celular
 	        List<Autor> lstCelular = autorService.listaAutorPorCelularIgualRegistra(obj.getCelular());
 	        if (!lstCelular.isEmpty()) {
-	            salida.put("mensaje", "El número de celular " + obj.getCelular() + " x");
+	            salida.put("mensaje", "El número de celular " + obj.getCelular() + " ya está en uso");
 	            return ResponseEntity.ok(salida);
 	        }
 	        
@@ -119,7 +119,7 @@ public class AutorCrudController {
 	        // Verificar número de celular
 	        List<Autor> lstCelular = autorService.listaAutorPorCelularIgualRegistra(obj.getCelular());
 	        if (!lstCelular.isEmpty()) {
-	            salida.put("mensaje", "El número de celular " + obj.getCelular() + " x");
+	            salida.put("mensaje", "El número de celular " + obj.getCelular() + " ya está en uso");
 	            return ResponseEntity.ok(salida);
 	        }
 	        
