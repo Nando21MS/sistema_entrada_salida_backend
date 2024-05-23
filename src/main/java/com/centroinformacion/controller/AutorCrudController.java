@@ -45,31 +45,48 @@ public class AutorCrudController {
 	@PostMapping("/registraAutor")
 	@ResponseBody
 	public ResponseEntity<?> insertaAutor(@RequestBody Autor obj) {
-		Map<String, Object> salida = new HashMap<>();
-		try {
-			obj.setIdAutor(0);
-			obj.setFechaActualizacion(new Date());
-			obj.setFechaRegistro(new Date());
-			obj.setEstado(AppSettings.ACTIVO);
-			
-			List<Autor> lstBusqueda = autorService.listaAutorPorNombresIgualRegistra(obj.getNombres());
-			if(!lstBusqueda.isEmpty()) {
-				salida.put("mensaje", "El Autor " + obj.getNombres() + " ya existe");
-				return ResponseEntity.ok(salida);
-			}
-			
-			Autor objSalida =  autorService.insertaActualizaAutor(obj);
-			if (objSalida == null) {
-				salida.put("mensaje", AppSettings.MENSAJE_REG_ERROR);
-			} else {
-				salida.put("mensaje", AppSettings.MENSAJE_REG_EXITOSO);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			salida.put("mensaje", AppSettings.MENSAJE_REG_ERROR);
-		}
-		return ResponseEntity.ok(salida);
+	    Map<String, Object> salida = new HashMap<>();
+	    try {
+	        obj.setIdAutor(0);
+	        obj.setFechaActualizacion(new Date());
+	        obj.setFechaRegistro(new Date());
+	        obj.setEstado(AppSettings.ACTIVO);
+
+	        // Verificar nombres
+	        List<Autor> lstNombres = autorService.listaAutorPorNombresIgualRegistra(obj.getNombres());
+	        if (!lstNombres.isEmpty()) {
+	            salida.put("mensaje", "El Autor con el nombre " + obj.getNombres() + " ya existe");
+	            return ResponseEntity.ok(salida);
+	        }
+
+	        // Verificar apellidos
+	        List<Autor> lstApellidos = autorService.listaAutorPorApellidosIgualRegistra(obj.getApellidos());
+	        if (!lstApellidos.isEmpty()) {
+	            salida.put("mensaje", "El Autor con el apellido " + obj.getApellidos() + " ya existe");
+	            return ResponseEntity.ok(salida);
+	        }
+
+	        // Verificar número de celular
+	        List<Autor> lstCelular = autorService.listaAutorPorCelularIgualRegistra(obj.getCelular());
+	        if (!lstCelular.isEmpty()) {
+	            salida.put("mensaje", "El número de celular " + obj.getCelular() + " ya está en uso");
+	            return ResponseEntity.ok(salida);
+	        }
+
+	        // Si pasa todas las verificaciones, se procede con el registro
+	        Autor objSalida = autorService.insertaActualizaAutor(obj);
+	        if (objSalida == null) {
+	            salida.put("mensaje", AppSettings.MENSAJE_REG_ERROR);
+	        } else {
+	            salida.put("mensaje", AppSettings.MENSAJE_REG_EXITOSO);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        salida.put("mensaje", AppSettings.MENSAJE_REG_ERROR);
+	    }
+	    return ResponseEntity.ok(salida);
 	}
+
 
 	@PutMapping("/actualizaAutor")
 	@ResponseBody
@@ -113,4 +130,3 @@ public class AutorCrudController {
 		return ResponseEntity.ok(salida);
 	}
 }
-
