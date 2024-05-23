@@ -27,4 +27,10 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
 	// Define una consulta personalizada utilizando JPQL para buscar alumnos cuyos nombres coincidan exactamente con el nombre proporcionado, excluyendo un ID específico.
 	@Query("select a from Alumno a where a.nombres = ?1 and a.idAlumno != ?2 ")
 	public abstract List<Alumno> listaPorNombreIgualActualiza(String nombre, int idRevista);
+
+	@Query("select a from Alumno a where a.telefono = ?1 ")
+	public abstract List<Alumno> listaPorTelefonoIgualRegistra(String telefono);
+	
+	@Query("select a from Alumno a where a.dni= ?1 ")
+	public abstract List<Alumno> listaPorDniIgualRegistra(String dni);
 }

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.centroinformacion.entity.Alumno;
 import com.centroinformacion.service.AlumnoService;
 import com.centroinformacion.util.AppSettings;
-import com.centroinformacion.util.FunctionUtil;
 
 @RestController
 @RequestMapping("/url/crudAlumno")
@@ -53,9 +52,19 @@ public class AlumnoCrudController {
 			obj.setFechaRegistro(new Date());
 			obj.setEstado(AppSettings.ACTIVO);
 			
-			List<Alumno> lstBusqueda = alumnoService.listaAlumnoPorNombreIgualRegistra(obj.getNombres());
-			if(!lstBusqueda.isEmpty()) {
-				salida.put("mensaje", "La Revista " + obj.getNombres() + " ya existe");
+			List<Alumno> lstBusquedaNombre = alumnoService.listaAlumnoPorNombreIgualRegistra(obj.getNombres());
+			if(!lstBusquedaNombre.isEmpty()) {
+				salida.put("mensaje", "El alumno " + obj.getNombres() + " ya existe");
+				return ResponseEntity.ok(salida);
+			}
+			List<Alumno> lstBusquedaTelefono = alumnoService.listaPorTelefono(obj.getTelefono());
+			if(!lstBusquedaTelefono.isEmpty()) {
+				salida.put("mensaje", "El teléfono " + obj.getTelefono() + " ya existe");
+				return ResponseEntity.ok(salida);
+			}
+			List<Alumno> lstBusquedaDni = alumnoService.listaPorDni(obj.getDni());
+			if(!lstBusquedaDni.isEmpty()) {
+				salida.put("mensaje", "El Dni " + obj.getDni() + " ya existe");
 				return ResponseEntity.ok(salida);
 			}
 			
@@ -72,17 +81,6 @@ public class AlumnoCrudController {
 		return ResponseEntity.ok(salida);
 	}
 	
-	
-	
-	@GetMapping("/buscaAlumnoEdadEstudiantil")
-	@ResponseBody
-	public String validaFecha(String fechaNacimiento) {
-		if(FunctionUtil.isEdadEstudiantil(fechaNacimiento)) {
-			return "{\"valid\":true}";
-		}else {
-			return "{\"valid\":false}";
-		}
-	}
 	
 	///
 		@PutMapping("/actualizaAlumno")
