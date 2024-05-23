@@ -72,6 +72,13 @@ public class AutorCrudController {
 	            salida.put("mensaje", "El número de celular " + obj.getCelular() + " ya está en uso");
 	            return ResponseEntity.ok(salida);
 	        }
+	        
+	        // Verificar número de teléfono
+	        List<Autor> lstTelefono = autorService.listaAutorPorTelefonoIgualRegistra(obj.getTelefono());
+	        if (!lstTelefono.isEmpty()) {
+	            salida.put("mensaje", "El teléfono " + obj.getTelefono() + " ya está en uso");
+	            return ResponseEntity.ok(salida);
+	        }
 
 	        // Si pasa todas las verificaciones, se procede con el registro
 	        Autor objSalida = autorService.insertaActualizaAutor(obj);
