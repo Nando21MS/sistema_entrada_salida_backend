@@ -19,6 +19,9 @@ public interface AutorService {
     List<Autor> listaAutorPorTelefonoIgualRegistra(String telefono);
 
 	// Validaciones Para Actualizar
-	public abstract List<Autor> listaAutorPorNombresIgualActualiza(String nombres, int idAutor);
+	List<Autor> listaAutorPorNombresIgualActualiza(String nombres, int idAutor);
+	List<Autor> listaAutorPorApellidosIgualActualiza(String apellidos,  int idAutor);
+    List<Autor> listaAutorPorCelularIgualActualiza(String celular,  int idAutor);
+    List<Autor> listaAutorPorTelefonoIgualActualiza(String telefono,  int idAutor);
 
 }
