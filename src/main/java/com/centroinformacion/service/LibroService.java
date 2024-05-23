@@ -9,4 +9,15 @@ public interface LibroService {
 	public abstract Libro insertaActualizaLibro(Libro obj);
 	public abstract List<Libro> listaLibro();
  	
+	
+	//CRUD
+		public abstract List<Libro> listaLibroPorTituloLike(String titulo);
+		public abstract void eliminaLibro(int idLibro);
+		
+		//VALIDACION PARA REGISTRAR
+		public abstract List<Libro> listaLibroPorTituloIgualRegistra(String titulo);
+
+		//VALIDACION PARA ACTUALIZAR
+		public abstract List<Libro> listaLibroPorTituloIgualActualiza(String titulo, int idLibro);
+
 }
