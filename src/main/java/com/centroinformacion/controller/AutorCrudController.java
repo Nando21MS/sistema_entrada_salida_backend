@@ -69,7 +69,7 @@ public class AutorCrudController {
 	        // Verificar número de celular
 	        List<Autor> lstCelular = autorService.listaAutorPorCelularIgualRegistra(obj.getCelular());
 	        if (!lstCelular.isEmpty()) {
-	            salida.put("mensaje", "El número de celular " + obj.getCelular() + " ya está en uso");
+	            salida.put("mensaje", "El número de celular " + obj.getCelular() + " x");
 	            return ResponseEntity.ok(salida);
 	        }
 	        
@@ -108,7 +108,29 @@ public class AutorCrudController {
 				salida.put("mensaje", "El Autor " + obj.getNombres() + " ya existe");
 				return ResponseEntity.ok(salida);
 			}
+
+	        // Verificar apellidos
+	        List<Autor> lstApellidos = autorService.listaAutorPorApellidosIgualRegistra(obj.getApellidos());
+	        if (!lstApellidos.isEmpty()) {
+	            salida.put("mensaje", "El Autor con el apellido " + obj.getApellidos() + " ya existe");
+	            return ResponseEntity.ok(salida);
+	        }
+
+	        // Verificar número de celular
+	        List<Autor> lstCelular = autorService.listaAutorPorCelularIgualRegistra(obj.getCelular());
+	        if (!lstCelular.isEmpty()) {
+	            salida.put("mensaje", "El número de celular " + obj.getCelular() + " x");
+	            return ResponseEntity.ok(salida);
+	        }
+	        
+	        // Verificar número de teléfono
+	        List<Autor> lstTelefono = autorService.listaAutorPorTelefonoIgualRegistra(obj.getTelefono());
+	        if (!lstTelefono.isEmpty()) {
+	            salida.put("mensaje", "El teléfono " + obj.getTelefono() + " ya está en uso");
+	            return ResponseEntity.ok(salida);
 			
+	        }
+	        
 			Autor objSalida =  autorService.insertaActualizaAutor(obj);
 			if (objSalida == null) {
 				salida.put("mensaje", AppSettings.MENSAJE_ACT_ERROR);
