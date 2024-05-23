@@ -8,14 +8,14 @@ public interface EditorialService {
 	public abstract Editorial insertaActualizaEditorial(Editorial obj);
 
 	public abstract List<Editorial> listaEditorialPorRazonSocialLike(String razonSocial);
+	public abstract List<Editorial> listaPorRuc(String ruc);
+	public abstract List<Editorial> listaPorRazonSocial(String razonSocial);
 
 	public abstract void eliminaEditorial(int idEditorial);
 
 	public abstract List<Editorial> listaTodos();
 
 	public abstract List<Editorial> listaEditorialPorRazonSocialIgualRegistra(String razonSocial);
-	public abstract List<Editorial> listaEditorialPorRucIgualRegistra(String ruc);
 	public abstract List<Editorial> listaEditorialPorRazonSocialIgualActualiza(String razonSocial, int idEditorial);
-	public abstract List<Editorial> listaEditorialRucIgualActualiza(String ruc, int idEditorial);
 	
 }

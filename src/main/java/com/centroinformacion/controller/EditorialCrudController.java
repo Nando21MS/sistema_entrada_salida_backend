@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,12 +50,6 @@ public class EditorialCrudController {
 			obj.setFechaActualizacion(new Date());
 			obj.setFechaRegistro(new Date());
 			obj.setEstado(AppSettings.ACTIVO);
-			List<Editorial> lstBusquedaRuc = editorialService.listaEditorialPorRucIgualRegistra(obj.getRuc());
-	        if (!lstBusquedaRuc.isEmpty()) {
-	            salida.put("mensaje", "El RUC " + obj.getRuc() + " ya existe");
-	            return ResponseEntity.ok(salida);
-	        }
-
 			List<Editorial> lstBusqueda = editorialService
 					.listaEditorialPorRazonSocialIgualRegistra(obj.getRazonSocial());
 			if (!lstBusqueda.isEmpty()) {
@@ -88,15 +83,6 @@ public class EditorialCrudController {
 	            salida.put("mensaje", "La Editorial " + obj.getRazonSocial() + " ya existe");
 	            return ResponseEntity.ok(salida);
 	        }
-	        
-	        // Verifica si el RUC ya existe
-	        List<Editorial> lstBusquedaRuc = editorialService.
-	                listaEditorialRucIgualActualiza(obj.getRuc(), obj.getIdEditorial());
-	        if (!lstBusquedaRuc.isEmpty()) {
-	            salida.put("mensaje", "El RUC " + obj.getRuc() + " ya existe");
-	            return ResponseEntity.ok(salida);
-	        }
-
 	        Editorial objSalida = editorialService.insertaActualizaEditorial(obj);
 	        if (objSalida == null) {
 	            salida.put("mensaje", AppSettings.MENSAJE_ACT_ERROR);
@@ -123,5 +109,26 @@ public class EditorialCrudController {
 			salida.put("mensaje", AppSettings.MENSAJE_ELI_ERROR);
 		}
 		return ResponseEntity.ok(salida);
+	}
+	
+	@GetMapping("/buscarEditorialPorRucActualiza")
+	@ResponseBody
+	public String validaRucActualiza(String ruc) {
+		List<Editorial> lst = editorialService.listaPorRuc(ruc);
+		if(CollectionUtils.isEmpty(lst)) {
+			return "{\"valid\":true}";
+		}else {
+			return "{\"valid\":false}";
+		}
+	}
+	@GetMapping("/buscarEditorialPorRazonSocialActualiza")
+	@ResponseBody
+	public String validaRazonSocialActualiza(@RequestParam("razonSocial") String razonSocial) {
+	    List<Editorial> lst = editorialService.listaPorRazonSocial(razonSocial);
+	    if (CollectionUtils.isEmpty(lst)) {
+	        return "{\"valid\":true}";
+	    } else {
+	        return "{\"valid\":false}";
+	    }
 	}
 }

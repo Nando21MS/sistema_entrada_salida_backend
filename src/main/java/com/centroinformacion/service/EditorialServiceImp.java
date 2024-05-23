@@ -33,26 +33,21 @@ public class EditorialServiceImp implements EditorialService {
 
 	@Override
 	public List<Editorial> listaEditorialPorRazonSocialIgualRegistra(String razonSocial) {
-// TODO Auto-generated method stub
 		return repository.listaPorRazonSocialIgualRegistra(razonSocial);
 	}
 
 	@Override
 	public List<Editorial> listaEditorialPorRazonSocialIgualActualiza(String razonSocial, int idEditorial) {
-// TODO Auto-generated method stub 
 		return repository.listaPorRazonSocialIgualActualiza(razonSocial, idEditorial);
 	}
-
 	@Override
-	public List<Editorial> listaEditorialPorRucIgualRegistra(String ruc) {
-		// TODO Auto-generated method stub
-		return repository.listaPorRucIgualRegistra(ruc);
+	public List<Editorial> listaPorRuc(String ruc) {
+		return repository.findByRuc(ruc);
 	}
 
 	@Override
-	public List<Editorial> listaEditorialRucIgualActualiza(String ruc, int idEditorial) {
-		// TODO Auto-generated method stub
-		return repository.listaEditorialPorRucIgualActualiza(ruc, idEditorial);
+	public List<Editorial> listaPorRazonSocial(String razonSocial) {
+		return repository.findByRazonSocial(razonSocial);
 	}
 
 }
