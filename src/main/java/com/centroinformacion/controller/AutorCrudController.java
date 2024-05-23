@@ -110,21 +110,21 @@ public class AutorCrudController {
 			}
 
 	        // Verificar apellidos
-	        List<Autor> lstApellidos = autorService.listaAutorPorApellidosIgualRegistra(obj.getApellidos());
+	        List<Autor> lstApellidos = autorService.listaAutorPorApellidosIgualActualiza(obj.getApellidos(),obj.getIdAutor());
 	        if (!lstApellidos.isEmpty()) {
 	            salida.put("mensaje", "El Autor con el apellido " + obj.getApellidos() + " ya existe");
 	            return ResponseEntity.ok(salida);
 	        }
 
 	        // Verificar número de celular
-	        List<Autor> lstCelular = autorService.listaAutorPorCelularIgualRegistra(obj.getCelular());
+	        List<Autor> lstCelular = autorService.listaAutorPorCelularIgualActualiza(obj.getCelular(),obj.getIdAutor());
 	        if (!lstCelular.isEmpty()) {
 	            salida.put("mensaje", "El número de celular " + obj.getCelular() + " ya está en uso");
 	            return ResponseEntity.ok(salida);
 	        }
 	        
 	        // Verificar número de teléfono
-	        List<Autor> lstTelefono = autorService.listaAutorPorTelefonoIgualRegistra(obj.getTelefono());
+	        List<Autor> lstTelefono = autorService.listaAutorPorTelefonoIgualActualiza(obj.getTelefono(),obj.getIdAutor());
 	        if (!lstTelefono.isEmpty()) {
 	            salida.put("mensaje", "El teléfono " + obj.getTelefono() + " ya está en uso");
 	            return ResponseEntity.ok(salida);
