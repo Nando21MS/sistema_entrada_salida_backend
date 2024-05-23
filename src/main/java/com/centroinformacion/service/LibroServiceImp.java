@@ -25,4 +25,26 @@ public class LibroServiceImp implements LibroService{
 	}
  
 
+	
+	@Override
+	public List<Libro> listaLibroPorTituloLike(String titulo) {
+		return repository.listaPorTituloLike(titulo);
+	}
+
+	@Override
+	public void eliminaLibro(int idLibro) {
+		repository.deleteById(idLibro);
+
+	}
+
+	@Override
+	public List<Libro> listaLibroPorTituloIgualRegistra(String titulo) {
+		return repository.listaPorTituloIgualRegistra(titulo);
+	}
+
+	@Override
+	public List<Libro> listaLibroPorTituloIgualActualiza(String titulo, int idLibro) {
+		return repository.listaPorTituloIgualActualiza(titulo, idLibro);
+	}
+	
 }
