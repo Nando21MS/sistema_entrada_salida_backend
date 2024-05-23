@@ -29,7 +29,7 @@ public class AlumnoServiceImp implements AlumnoService {
 	@Override
 	public List<Alumno> listaPorDni(String dni) {
 		// Llama al método del repositorio para obtener una lista de alumnos cuyo DNI coincide, ignorando mayúsculas y minúsculas.
-		return repository.findByDniIgnoreCase(dni);
+		return repository.listaPorDniIgualRegistra(dni);
 	}
 
 	@Override
@@ -52,5 +52,11 @@ public class AlumnoServiceImp implements AlumnoService {
 	@Override
 	public List<Alumno> listaAlumnoPorNombreIgualRegistra(String nombre) {
 		return repository.listaPorNombreIgualRegistra(nombre);
+	}
+
+	@Override
+	public List<Alumno> listaPorTelefono(String telefono) {
+		
+		return repository.listaPorTelefonoIgualRegistra(telefono);
 	}
 }
