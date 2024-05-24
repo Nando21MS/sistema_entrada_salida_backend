@@ -62,12 +62,12 @@ public class AutorServiceImp implements AutorService {
 
 	@Override
 	public List<Autor> listaAutorPorApellidosIgualActualiza(String apellidos, int idAutor) {
-		 return repository.listaAutorPorTelefonoIgualActualiza(apellidos, idAutor);
+		 return repository.listaPorApellidosIgualActualiza(apellidos, idAutor);
 	}
 
 	@Override
 	public List<Autor> listaAutorPorCelularIgualActualiza(String celular, int idAutor) {
-		 return repository.listaAutorPorTelefonoIgualActualiza(celular, idAutor);
+		 return repository.listaPorCelularIgualActualiz(celular, idAutor);
 	}
 
 	@Override
