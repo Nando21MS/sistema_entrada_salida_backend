@@ -123,7 +123,7 @@ public class EditorialCrudController {
 	}
 	@GetMapping("/buscarEditorialPorRazonSocialActualiza")
 	@ResponseBody
-	public String validaRazonSocialActualiza(@RequestParam("razonSocial") String razonSocial) {
+	public String validaRazonSocialActualiza(String razonSocial) {
 	    List<Editorial> lst = editorialService.listaPorRazonSocial(razonSocial);
 	    if (CollectionUtils.isEmpty(lst)) {
 	        return "{\"valid\":true}";
