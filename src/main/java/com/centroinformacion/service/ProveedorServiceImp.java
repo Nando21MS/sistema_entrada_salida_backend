@@ -37,5 +37,26 @@ public class ProveedorServiceImp implements ProveedorService {
 	public List<Proveedor> listaProveedorPorRazonSocialIgualActualiza(String razonsocial, int idProveedor) {
 		return repository.listaPorRazonSocialIgualActualiza(razonsocial, idProveedor);
 	}
+	@Override
+	public List<Proveedor> listaPorRuc(String ruc) {
+		// TODO Auto-generated method stub
+		return repository.findByRuc(ruc);
+	}
+	@Override
+	public List<Proveedor> listaPorRazonSocial(String razonsocial) {
+		// TODO Auto-generated method stub
+	    return repository.findByRazonsocial(razonsocial);
+	}
+	@Override
+	public List<Proveedor> listaPorCelular(String celular) {
+		// TODO Auto-generated method stub
+		return repository.findByCelular(celular);
+	}
+	@Override
+	public List<Proveedor> listaPorContacto(String contacto) {
+		// TODO Auto-generated method stub
+		return repository.findByContacto(contacto);
+	}
+	
 	
 }
