@@ -5,23 +5,24 @@ import java.util.List;
 import com.centroinformacion.entity.Alumno;
 
 public interface AlumnoService {
-	
-	public abstract Alumno insertaActualizaAlumno(Alumno obj);
-	public abstract List<Alumno> listaTodos();
-	public abstract List<Alumno> listaPorDni(String dni);
-	
-	//CRUD
-	//public abstract Alumno insertaActualizaAlumno(Alumno obj);
-	public abstract List<Alumno> listaAlumnoPorNombreLike(String nombre);
-	public abstract void eliminaAlumno(int idAlumno);
-	//	public abstract List<Alumno> listaTodos();
 
+	public abstract List<Alumno> listaTodos();
+	public abstract Alumno registraAlumno(Alumno obj);
 	
-	//Validaciones Para Actualizar
-			public abstract List<Alumno> listaAlumnoPorNombreIgualActualiza(String nombre, int idAlumno);
-			//Validaciones Para Revistrar
-			public abstract List<Alumno> listaAlumnoPorNombreIgualRegistra(String nombre);
-			
-			public abstract List<Alumno> listaPorTelefono(String telefono);
+
+	//PARA EL CRUD (INSERT - DELETE - UPDATE - SELECT)
+	public abstract Alumno insertaActualizaAlumno(Alumno obj);
+	public abstract List<Alumno> listaAlumnoPorTituloLike(String titulo);
+	public abstract void eliminaAlumno(int idAlumno);
+	public abstract List<Alumno> listaAlumnoTodos();
+	
+	//VALIDACIONES - REGISTER 
+	public abstract List<Alumno> listaAlumnoPorNombreIgualRegistro(String titulo);
+	
+	//VALIDACIONES  - UPDATE
+	public abstract List<Alumno> listaAlumnoPorTituloIgualActualiza(String titulo, int idAlumno);
+	public abstract List<Alumno> validacionListaPorTitutloIgualRegistra(String titulo);
+	
+
 
 }
