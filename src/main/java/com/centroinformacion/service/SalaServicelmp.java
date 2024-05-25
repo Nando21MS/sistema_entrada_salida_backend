@@ -23,5 +23,28 @@ public class SalaServicelmp implements SalaService {
 	public List<Sala> listaTodos() {
 		return repository.findAll();
 	}
+
+	@Override
+	public List<Sala> listaSalaPorNumeroLike(String numero) {
+		return repository.listaPorNumeroLike(numero);
+
+	}
+
+	@Override
+	public List<Sala> listaSalaPorNumeroIgualRegistra(String numero) {
+		return repository.listaPorNumeroIgualRegistra(numero);
+
+	}
+
+	@Override
+	public List<Sala> listaSalaPorNombreIgualActualiza(String numero, int idSala) {
+		return repository.listaPorNumeroIgualActualiza(numero, idSala);
+	}
+
+	@Override
+	public void eliminaSala(int idSala) {
+		repository.deleteById(idSala);
+		
+	}
 	
 }
