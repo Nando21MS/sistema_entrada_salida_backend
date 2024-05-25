@@ -15,6 +15,9 @@ public abstract List<Alumno> findByOrderByApellidosAsc();
 	@Query("select t from Alumno t where t.nombres like ?1")
 	public abstract List<Alumno> listaAlumnoPorTituloLike(String titulo);
 	
+	@Query("select t from Alumno t where t.apellidos like ?1")
+	public abstract List<Alumno> listaAlumnoPorApellidoLike(String apellido);
+	
 	@Query("select t from Alumno t where t.nombres like ?1")
 	public abstract List<Alumno> listaPorTituloLikeIgualRegistra(String titulo);
 	
@@ -23,4 +26,10 @@ public abstract List<Alumno> findByOrderByApellidosAsc();
 	
 	@Query("select t from Alumno t where t.nombres = ?1")
 	public abstract List<Alumno> validacionListaPorNombreIgualRegistra(String titulo);
+	
+	@Query("select a from Alumno a where a.telefono = ?1 ")
+	public abstract List<Alumno> listaPorTelefonoIgualRegistra(String telefono);
+	
+	@Query("select a from Alumno a where a.dni= ?1 ")
+	public abstract List<Alumno> listaPorDniIgualRegistra(String dni);
 }
