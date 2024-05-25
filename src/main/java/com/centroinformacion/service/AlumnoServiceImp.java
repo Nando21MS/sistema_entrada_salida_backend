@@ -59,4 +59,20 @@ public class AlumnoServiceImp implements AlumnoService {
 	public List<Alumno> validacionListaPorTitutloIgualRegistra(String titulo) {
 		return repository.validacionListaPorNombreIgualRegistra(titulo);
 	}
+
+	@Override
+	public List<Alumno> listaPorDni(String dni) {
+		return repository.listaPorDniIgualRegistra(dni);
+	}
+
+	@Override
+	public List<Alumno> listaPorTelefono(String telefono) {
+		return repository.listaPorTelefonoIgualRegistra(telefono);
+	}
+
+	@Override
+	public List<Alumno> listaAlumnoPorApellidoIgualRegistro(String apellido) {
+		
+		return repository.listaAlumnoPorApellidoLike(apellido);
+	}
 }

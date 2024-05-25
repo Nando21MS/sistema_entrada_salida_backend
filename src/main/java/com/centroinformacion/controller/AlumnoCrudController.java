@@ -77,7 +77,24 @@ public class AlumnoCrudController {
 			
 			List<Alumno> lstBusqueda = alumnoService.listaAlumnoPorNombreIgualRegistro(obj.getNombres());
 			if(!lstBusqueda.isEmpty()) {
-				salida.put("mensaje", "El alumno " + obj.getNombres() + " ya existe");
+				salida.put("mensaje", "El nombre " + obj.getNombres() + " ya existe");
+				return ResponseEntity.ok(salida);
+			}
+			
+			List<Alumno> lstBusquedaApellido = alumnoService.listaAlumnoPorApellidoIgualRegistro(obj.getApellidos());
+			if(!lstBusquedaApellido.isEmpty()) {
+				salida.put("mensaje", "El apellido " + obj.getApellidos() + " ya existe");
+				return ResponseEntity.ok(salida);
+			}
+			
+			List<Alumno> lstBusquedaTelefono = alumnoService.listaPorTelefono(obj.getTelefono());
+			if(!lstBusquedaTelefono.isEmpty()) {
+				salida.put("mensaje", "El teléfono " + obj.getTelefono() + " ya existe");
+				return ResponseEntity.ok(salida);
+			}
+			List<Alumno> lstBusquedaDni = alumnoService.listaPorDni(obj.getDni());
+			if(!lstBusquedaDni.isEmpty()) {
+				salida.put("mensaje", "El Dni " + obj.getDni() + " ya existe");
 				return ResponseEntity.ok(salida);
 			}
 			

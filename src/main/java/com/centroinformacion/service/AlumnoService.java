@@ -18,10 +18,14 @@ public interface AlumnoService {
 	
 	//VALIDACIONES - REGISTER 
 	public abstract List<Alumno> listaAlumnoPorNombreIgualRegistro(String titulo);
+	public abstract List<Alumno> listaAlumnoPorApellidoIgualRegistro(String apellido);
 	
 	//VALIDACIONES  - UPDATE
 	public abstract List<Alumno> listaAlumnoPorTituloIgualActualiza(String titulo, int idAlumno);
 	public abstract List<Alumno> validacionListaPorTitutloIgualRegistra(String titulo);
+	
+	public abstract List<Alumno> listaPorDni(String dni);
+	public abstract List<Alumno> listaPorTelefono(String telefono);
 	
 
 
