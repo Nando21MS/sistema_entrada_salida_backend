@@ -37,14 +37,14 @@ public class AlumnoRegistraController {
 		return ResponseEntity.ok(lista); // Devuelve la lista como respuesta HTTP 200 OK
 	}
 	
-	@GetMapping("/buscaPorDni")
+	@GetMapping("/buscaPorNombreIgual")
 	@ResponseBody
-	public String validaDni(String dni) {
-		List<Alumno> listaPorDni = alumnoService.listaPorDni(dni);
-		if (CollectionUtils.isEmpty(listaPorDni)) {
-			return "{\"valid\" : true }";
-		} else {
-			return "{\"valid\" : false }";
+	public String validaTitulo(String titulo) {
+		List<Alumno> lst = alumnoService.validacionListaPorTitutloIgualRegistra(titulo);
+		if(CollectionUtils.isEmpty(lst)) {
+			return "{\"valid\":true}";
+		}else {
+			return "{\"valid\":false}";
 		}
 	}
 	
