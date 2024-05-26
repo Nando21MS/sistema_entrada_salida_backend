@@ -71,17 +71,21 @@ public class SalaCrudController {
 		return ResponseEntity.ok(salida);
 	}
 	
+	
+	
 	@GetMapping("/buscaPorNumeroIgual")
 	@ResponseBody
-	public String validaNumeros(String numero) {
+	public String validaNumero(String numero) {
 		List<Sala> lst = salaService.listaSalaPorNumeroIgualRegistra(numero);
 		if(CollectionUtils.isEmpty(lst)) {
 			return "{\"valid\":true}";
 		}else {
-			return "{\"valid\":true}";
+			return "{\"valid\":false}";
 		}
 	}
-    
+	
+	
+	
 	@PutMapping("/actualizaSala")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> actualizaSala(@RequestBody Sala obj) {
