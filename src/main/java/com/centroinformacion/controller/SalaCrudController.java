@@ -72,7 +72,7 @@ public class SalaCrudController {
 	}
 	
 	
-	
+
 	@GetMapping("/buscaPorNumeroIgual")
 	@ResponseBody
 	public String validaNumero(String numero) {
