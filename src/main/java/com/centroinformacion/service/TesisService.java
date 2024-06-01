@@ -1,5 +1,6 @@
 package com.centroinformacion.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.centroinformacion.entity.Tesis;
@@ -17,5 +18,8 @@ public interface TesisService {
 	
 	//VALIDACION PARA ACTUALIZAR
 	public abstract List<Tesis> listaTesisPorTituloIgualActualiza(String titulo, int idTesis);
+	
+	//PARA LA CONSULTA
+	public abstract List<Tesis> listaConsultaCompleja(String titulo, Date fecIni, Date fecFin, int estado, int idTema, int idIdioma, int idCentroEstudios);
 
 }

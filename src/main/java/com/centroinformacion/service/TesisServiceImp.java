@@ -1,5 +1,6 @@
 package com.centroinformacion.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,11 @@ public class TesisServiceImp implements TesisService{
 	@Override
 	public List<Tesis> listaTesisPorTituloIgualActualiza(String titulo, int idTesis) {
 		return repository.listaPorTituloIgualActualiza(titulo, idTesis);
+	}
+
+	@Override
+	public List<Tesis> listaConsultaCompleja(String titulo, Date fecIni, Date fecFin, int estado, int idTema,
+			int idIdioma, int idCentroEstudios) {
+		return repository.listaConsultaCompleja(titulo, fecIni, fecFin, estado, idTema, idIdioma, idCentroEstudios);
 	}
 }
