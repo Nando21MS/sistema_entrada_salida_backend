@@ -1,5 +1,6 @@
 package com.centroinformacion.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.centroinformacion.entity.Alumno;
@@ -26,6 +27,11 @@ public interface AlumnoService {
 	
 	public abstract List<Alumno> listaPorDni(String dni);
 	public abstract List<Alumno> listaPorTelefono(String telefono);
+	
+	//Consulta
+	public abstract List<Alumno> listaConsultaCompleja(String nombres, String apellidos, String telefono,String celular, 
+			String dni,String correo,String tipoSangre,
+			Date fechaNacimientoDesde,Date fechaNacimientoHasta,int estado,int idPais,int idModalidad);
 	
 
 
