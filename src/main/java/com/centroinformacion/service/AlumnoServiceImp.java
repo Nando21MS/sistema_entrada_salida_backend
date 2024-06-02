@@ -1,5 +1,6 @@
 package com.centroinformacion.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +75,12 @@ public class AlumnoServiceImp implements AlumnoService {
 	public List<Alumno> listaAlumnoPorApellidoIgualRegistro(String apellido) {
 		
 		return repository.listaAlumnoPorApellidoLike(apellido);
+	}
+
+	@Override
+	public List<Alumno> listaConsultaCompleja(String nombres, String apellidos, String telefono, String celular,
+			String dni, String correo, String tipoSangre, Date fechaNacimientoDesde, Date fechaNacimientoHasta, int estado, int idPais,
+			int idModalidad) {
+		return repository.listaConsultaCompleja(nombres, apellidos, telefono, celular, dni, correo, tipoSangre, fechaNacimientoDesde, fechaNacimientoHasta, estado, idPais, idModalidad);
 	}
 }
