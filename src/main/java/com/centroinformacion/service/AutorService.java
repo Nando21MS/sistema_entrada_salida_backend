@@ -1,5 +1,6 @@
 package com.centroinformacion.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.centroinformacion.entity.Autor;
@@ -23,5 +24,10 @@ public interface AutorService {
 	List<Autor> listaAutorPorApellidosIgualActualiza(String apellidos,  int idAutor);
     List<Autor> listaAutorPorCelularIgualActualiza(String celular,  int idAutor);
     List<Autor> listaAutorPorTelefonoIgualActualiza(String telefono,  int idAutor);
+
+  //Consulta
+  	public abstract List<Autor> listaConsultaCompleja(String nombres, String apellidos, Date fechaNacimientoDesde,Date fechaNacimientoHasta,
+  			String telefono,String celular, String orcid,int estado,int idPais,int idGrado);
+  	
 
 }

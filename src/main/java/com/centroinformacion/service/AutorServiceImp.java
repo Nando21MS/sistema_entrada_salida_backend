@@ -1,5 +1,6 @@
 package com.centroinformacion.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,14 @@ public class AutorServiceImp implements AutorService {
 	@Override
 	public List<Autor> listaAutorPorTelefonoIgualActualiza(String telefono, int idAutor) {
 		 return repository.listaAutorPorTelefonoIgualActualiza(telefono, idAutor);
+	}
+
+	@Override
+	public List<Autor> listaConsultaCompleja(String nombres, String apellidos, Date fechaNacimientoDesde,
+			Date fechaNacimientoHasta, String telefono, String celular, String orcid, int estado, int idPais,
+			int idGrado) {
+		return repository.listaConsultaCompleja(nombres, apellidos, fechaNacimientoDesde, fechaNacimientoHasta, telefono, celular, orcid, estado, idPais, idGrado);
+
 	}
 
 	
