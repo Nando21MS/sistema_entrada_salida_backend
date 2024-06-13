@@ -46,5 +46,15 @@ public class LibroServiceImp implements LibroService{
 	public List<Libro> listaLibroPorTituloIgualActualiza(String titulo, int idLibro) {
 		return repository.listaPorTituloIgualActualiza(titulo, idLibro);
 	}
+
+	@Override
+	public List<Libro> listaConsultaCompleja(String titulo, int anio, String serie, int estado, int idCategoriaLibro,
+			int idEstadoPrestamo, int idTipoLibro, int idEditorial) {
+		return repository.listaConsultaCompleja(titulo, anio, anio, serie, estado, idCategoriaLibro, idEstadoPrestamo, idTipoLibro, idEditorial);
+	}
+	
+
+	
+	
 	
 }
