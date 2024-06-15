@@ -19,6 +19,8 @@ public class AppSettings {
 	
 	public static final int ACTIVO = 1;
 	public static final int INACTIVO = 0;
+	public static final String ACTIVO_DESC = "ACTIVO";
+	public static final String INACTIVO_DESC = "INACTIVO";
 	
 	public static final String ACTIVO_DES = "ACTIVO";
 	public static final String INACTIVO_DES = "INACTIVO";
