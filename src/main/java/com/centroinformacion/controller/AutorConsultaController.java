@@ -1,10 +1,14 @@
 package com.centroinformacion.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -36,6 +40,12 @@ import com.centroinformacion.util.AppSettings;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 @RestController
 @RequestMapping("/url/consultaAutor")
@@ -81,9 +91,13 @@ public class AutorConsultaController {
 			@RequestParam(name = "idPais", required = false, defaultValue = "-1") int idPais,
 			@RequestParam(name = "idGrado", required = false, defaultValue = "-1") int idGrado,
 			HttpServletRequest request, HttpServletResponse response) {
-		try (Workbook excel = new XSSFWorkbook()) {
+		Workbook excel = null;
+		try {
+			excel = new XSSFWorkbook();
+
 			// Se crear la hoja del Excel
 			Sheet hoja = excel.createSheet(SHEET);
+
 			// Agrupar
 			hoja.addMergedRegion(new CellRangeAddress(0, 0, 0, HEADER_WITH.length - 1));
 
@@ -150,7 +164,7 @@ public class AutorConsultaController {
 			List<Autor> lstSalida = autorService.listaConsultaCompleja("%" + nombres + "%", "%" + apellidos + "%",
 					fechaNacimientoDesde, fechaNacimientoHasta, "%" + telefono + "%", "%" + celular + "%",
 					"%" + orcid + "%", estado, idPais, idGrado);
-			
+
 			// Fila 3....n
 			int rowIdx = 3;
 			for (Autor obj : lstSalida) {
@@ -178,7 +192,7 @@ public class AutorConsultaController {
 				cel6.setCellValue(obj.getOrcid());
 
 				Cell cel7 = row.createCell(7);
-				cel7.setCellValue(obj.getEstado() == 1 ? AppSettings.ACTIVO_DES : AppSettings.INACTIVO_DES);
+				cel7.setCellValue(obj.getEstado() == 1 ? AppSettings.ACTIVO_DESC : AppSettings.INACTIVO_DESC);
 
 				Cell cel8 = row.createCell(8);
 				cel8.setCellValue(obj.getPais().getNombre());
@@ -196,9 +210,57 @@ public class AutorConsultaController {
 			outStream.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (excel != null)
+					excel.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	@PostMapping("/reporteAutorPDF")
+	public void reportePDF(@RequestParam(name = "nombres", required = true, defaultValue = "") String nombres,
+			@RequestParam(name = "apellidos", required = true, defaultValue = "") String apellidos,
+			@RequestParam(name = "fechaNacimientoDesde", required = true, defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimientoDesde,
+			@RequestParam(name = "fechaNacimientoHasta", required = true, defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimientoHasta,
+			@RequestParam(name = "telefono", required = true, defaultValue = "") String telefono,
+			@RequestParam(name = "celular", required = true, defaultValue = "") String celular,
+			@RequestParam(name = "orcid", required = true, defaultValue = "") String orcid,
+			@RequestParam(name = "estado", required = true, defaultValue = "") int estado,
+			@RequestParam(name = "idPais", required = false, defaultValue = "-1") int idPais,
+			@RequestParam(name = "idGrado", required = false, defaultValue = "-1") int idGrado,
+			HttpServletRequest request, HttpServletResponse response) {
+		try {
+
+			// PASO 1 Fuente de datos
+			List<Autor> lstSalida = autorService.listaConsultaCompleja("%" + nombres + "%", "%" + apellidos + "%",
+					fechaNacimientoDesde, fechaNacimientoHasta, "%" + telefono + "%", "%" + celular + "%",
+					"%" + orcid + "%", estado, idPais, idGrado);
+			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstSalida);
+
+			// PASO 2 Diseño de reporteReporteAutor.jasper
+			String fileReporte = request.getServletContext().getRealPath("ReporteAutor.jasper");
+
+			// PASO3 parámetros adicionales
+			Map<String, Object> params = new HashMap<String, Object>();
+
+			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(new FileInputStream(new File(fileReporte)));
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
+
+			// PASO 5 parametros en el Header del mensajes HTTP
+			response.setContentType("application/pdf");
+			response.addHeader("Content-disposition", "attachment; filename=ReporteAutor.pdf");
+
+			// PASO 6 Se envia el pdf
+			OutputStream outStream = response.getOutputStream();
+			JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }
