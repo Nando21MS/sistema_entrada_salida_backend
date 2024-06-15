@@ -1,9 +1,11 @@
 package com.centroinformacion.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.centroinformacion.util.FunctionUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -72,5 +74,30 @@ public class Tesis {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUsuarioActualiza")
 	private Usuario usuarioActualiza;
+	
+	
+	
+	
+	//PARA EL REPORTE
+	public String getReporteEstado() {
+		return estado == 1 ? "Activo" : "Inactivo";
+	}
+	
+	public String getReporteFecha() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(fechaRegistro);
+	}
+	public String getReporteTema() {
+		return tema.getDescripcion();
+	}
+	public String getReporteIdioma() {
+		return idioma.getDescripcion();
+	}
+	public String getReporteCentroEstudios() {
+		return centroEstudios.getDescripcion();
+	}
+	public String getReporteFechaCreacion() {
+		return FunctionUtil.getFechaString(fechaCreacion);
+	}
    
 }

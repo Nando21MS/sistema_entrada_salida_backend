@@ -1,10 +1,14 @@
 package com.centroinformacion.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -36,6 +40,12 @@ import com.centroinformacion.util.AppSettings;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 @RestController
 @RequestMapping("/url/consultaTesis")
@@ -207,5 +217,43 @@ public class TesisConsultaController {
 		}
 
 	}
+	
+	@PostMapping("/reporteTesisPDF")
+	public void reportePDF(@RequestParam(name = "titulo" , required = true , defaultValue = "") String nombre,
+			@RequestParam(name = "fecDesde" , required = true , defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecDesde,
+			@RequestParam(name = "fecHasta" , required = true , defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecHasta,
+			@RequestParam(name = "estado" , required = true , defaultValue = "") int estado,
+			@RequestParam(name = "idTema" , required = false , defaultValue = "-1") int idTema,
+			@RequestParam(name = "idIdioma" , required = false , defaultValue = "-1") int idIdioma,
+			@RequestParam(name = "idCentroEstudios" , required = false , defaultValue = "-1") int idCentroEstudios,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		try {
+			//PASO 1: FUENTE DE DATOS
+			List<Tesis> lstSalida = tesisService.listaConsultaCompleja(
+					"%"+nombre+"%", fecDesde, fecHasta, estado, idTema, idIdioma, idCentroEstudios);
+			
+			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstSalida);
 
+			//PASO 2: DISEÑO DE REPORTE
+			String fileReporte = request.getServletContext().getRealPath("reporteTesis.jasper");
+	
+			//PASO 3: PARÁMETROS ADICIONALES
+			Map<String, Object> params = new HashMap<String, Object>();
+	
+			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(new FileInputStream(new File(fileReporte)));
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
+	
+			// PASO 5 parametros en el Header del mensajes HTTP
+			response.setContentType("application/pdf");
+			response.addHeader("Content-disposition", "attachment; filename=ReporteTesis.pdf");
+	
+			// PASO 6 Se envia el pdf
+			OutputStream outStream = response.getOutputStream();
+			JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
