@@ -77,10 +77,10 @@ public class Autor {
 			return estado == 1 ? "Activo" : "Inactivo";
 		}
 		public String getReportePais() {
-			return pais.getIdPais()+"-"+pais.getNombre();
+			return pais.getNombre();
 		}
 		public String getReporteGrado() {
-			return grado.getIdDataCatalogo()+"-"+grado.getDescripcion();
+			return grado.getDescripcion();
 		}
 		public String getReporteFechaNacimiento() {
 			return FunctionUtil.getFechaString(fechaNacimiento);
