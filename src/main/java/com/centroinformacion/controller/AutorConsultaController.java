@@ -73,10 +73,11 @@ public class AutorConsultaController {
 		return ResponseEntity.ok(lstSalida);
 	}
 
+	// PARA REPORTE
 	private static String[] HEADERs = { "CÓDIGO", "NOMBRES", "APELLIDOS", "FECHA NACIMIENTO", "TELEFONO", "CELULAR",
 			"ORCID", "ESTADO", "PAÍS", "GRADO" };
 	private static String SHEET = "Listado de Autor";
-	private static String TITLE = "Listado de Autor - Autora:  Astrid Yovera";
+	private static String TITLE = "Listado de Autor - Autora:  Astrid Yovera Tinoco";
 	private static int[] HEADER_WITH = { 3000, 6000, 6000, 4000, 3000, 3000, 5000, 3000, 4000, 4000 };
 
 	@PostMapping("/reporteAutorExcel")
@@ -91,6 +92,7 @@ public class AutorConsultaController {
 			@RequestParam(name = "idPais", required = false, defaultValue = "-1") int idPais,
 			@RequestParam(name = "idGrado", required = false, defaultValue = "-1") int idGrado,
 			HttpServletRequest request, HttpServletResponse response) {
+
 		Workbook excel = null;
 		try {
 			excel = new XSSFWorkbook();
@@ -159,46 +161,56 @@ public class AutorConsultaController {
 			}
 
 			// formato para fecha
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 			List<Autor> lstSalida = autorService.listaConsultaCompleja("%" + nombres + "%", "%" + apellidos + "%",
 					fechaNacimientoDesde, fechaNacimientoHasta, "%" + telefono + "%", "%" + celular + "%",
 					"%" + orcid + "%", estado, idPais, idGrado);
 
-			// Fila 3....n
+			// Filas de datos
 			int rowIdx = 3;
 			for (Autor obj : lstSalida) {
 				Row row = hoja.createRow(rowIdx++);
 
 				Cell cel0 = row.createCell(0);
 				cel0.setCellValue(obj.getIdAutor());
+				cel0.setCellStyle(estiloDatosCentrado);
 
 				Cell cel1 = row.createCell(1);
 				cel1.setCellValue(obj.getNombres());
+				cel1.setCellStyle(estiloDatosCentrado);
 
 				Cell cel2 = row.createCell(2);
 				cel2.setCellValue(obj.getApellidos());
+				cel2.setCellStyle(estiloDatosCentrado);
 
 				Cell cel3 = row.createCell(3);
 				cel3.setCellValue(sdf.format(obj.getFechaNacimiento()));
-
+				cel3.setCellStyle(estiloDatosCentrado);
+				
 				Cell cel4 = row.createCell(4);
 				cel4.setCellValue(obj.getTelefono());
-
+				cel4.setCellStyle(estiloDatosCentrado);
+				
 				Cell cel5 = row.createCell(5);
 				cel5.setCellValue(obj.getCelular());
+				cel5.setCellStyle(estiloDatosCentrado);
 
 				Cell cel6 = row.createCell(6);
 				cel6.setCellValue(obj.getOrcid());
-
+				cel6.setCellStyle(estiloDatosCentrado);
+				
 				Cell cel7 = row.createCell(7);
-				cel7.setCellValue(obj.getEstado() == 1 ? AppSettings.ACTIVO_DESC : AppSettings.INACTIVO_DESC);
-
+				cel7.setCellValue(obj.getEstado() == 1 ? AppSettings.ACTIVO_DES : AppSettings.INACTIVO_DES);
+				cel7.setCellStyle(estiloDatosCentrado);
+				
 				Cell cel8 = row.createCell(8);
 				cel8.setCellValue(obj.getPais().getNombre());
+				cel8.setCellStyle(estiloDatosCentrado);
 
 				Cell cel9 = row.createCell(9);
 				cel9.setCellValue(obj.getGrado().getDescripcion());
+				cel9.setCellStyle(estiloDatosCentrado);
 			}
 
 			// Tipo de archivo y nombre de archivo
@@ -240,25 +252,26 @@ public class AutorConsultaController {
 			List<Autor> lstSalida = autorService.listaConsultaCompleja("%" + nombres + "%", "%" + apellidos + "%",
 					fechaNacimientoDesde, fechaNacimientoHasta, "%" + telefono + "%", "%" + celular + "%",
 					"%" + orcid + "%", estado, idPais, idGrado);
+			
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstSalida);
 
-			// PASO 2 Diseño de reporteReporteAutor.jasper
+			//PASO 2: DISEÑO DE REPORTE
 			String fileReporte = request.getServletContext().getRealPath("ReporteAutor.jasper");
-
-			// PASO3 parámetros adicionales
+	
+			//PASO 3: PARÁMETROS ADICIONALES
 			Map<String, Object> params = new HashMap<String, Object>();
-
+	
 			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(new FileInputStream(new File(fileReporte)));
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
-
+	
 			// PASO 5 parametros en el Header del mensajes HTTP
 			response.setContentType("application/pdf");
 			response.addHeader("Content-disposition", "attachment; filename=ReporteAutor.pdf");
-
+	
 			// PASO 6 Se envia el pdf
 			OutputStream outStream = response.getOutputStream();
 			JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
-
+	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
