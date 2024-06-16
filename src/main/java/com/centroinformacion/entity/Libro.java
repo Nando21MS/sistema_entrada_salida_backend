@@ -2,6 +2,7 @@ package com.centroinformacion.entity;
 
 import java.util.Date;
 
+import com.centroinformacion.util.FunctionUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -70,4 +71,27 @@ public class Libro {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUsuarioActualiza")
 	private Usuario usuarioActualiza;
+	
+	
+	
+	// Para el reportes
+    public String getReporteEstado() {
+        return estado == 1 ? "Activo" : "Inactivo";
+    }
+    
+    public String getReporteCategoriaLibro() {
+        return categoriaLibro.getDescripcion();
+    }
+    
+    public String getReporteEstadoPrestamo() {
+        return estadoPrestamo.getDescripcion();
+    }
+    
+    public String getReporteTipoLibro() {
+        return tipoLibro.getDescripcion();
+    }
+    
+    public String getReporteEditorial() {
+        return editorial.getRazonSocial();
+    }
 }
