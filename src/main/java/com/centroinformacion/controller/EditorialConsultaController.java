@@ -70,7 +70,7 @@ public class EditorialConsultaController {
 		List<Editorial> lstSalida =editorialService.listaCompleja("%"+razonSocial+"%", "%"+direccion+"%", "%"+ruc+"%", "%"+gerente+"%", fecDesde, fecHasta, estado, idPais);
 		return ResponseEntity.ok(lstSalida);
 	}
-	private static String[] HEADERs = { "CÓDIGO", "RAZON SOCIAL","DIRECCION","RUC","GERENTE", "FECHA CREACIÓN", "ESTADO", "PAÍS" };
+	private static String[] HEADERs = { "CÓDIGO", "RAZÓN SOCIAL","DIRECCIÓN","RUC","GERENTE", "FECHA CREACIÓN", "ESTADO", "PAÍS" };
 	private static String SHEET = "Listado de Editorial";
 	private static String TITLE = "Listado de Editorial - Autor: Jans Vargas";
 	private static int[] HEADER_WITH = { 3000, 10000, 10000, 6000, 6000, 6000, 6000,6000 };
@@ -261,5 +261,4 @@ public class EditorialConsultaController {
 		}
 	}
 }
-
 
