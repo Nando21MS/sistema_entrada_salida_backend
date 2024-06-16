@@ -14,6 +14,7 @@ public interface ProveedorService {
 	public abstract List<Proveedor> listaProveedorPorRazonSocialIgualRegistra(String razonsocial); 
 	public abstract List<Proveedor> listaProveedorPorRazonSocialIgualActualiza(String razonsocial,int idProveedor); 
  
+	public abstract List<Proveedor> listaCompleja(String razonsocial, String direccion,String ruc,String telefono,String celular,String contacto, int estado,int idPais,int idTipoProveedor );
 
 
 

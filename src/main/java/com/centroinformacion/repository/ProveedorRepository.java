@@ -20,5 +20,24 @@ public interface ProveedorRepository extends JpaRepository<Proveedor, Integer>{
 	@Query("select e from Proveedor e where e.razonsocial = ?1 and e.idProveedor != ?2 ")
 	public abstract List<Proveedor> listaPorRazonSocialIgualActualiza(String razonsocial, int idProveedor);
 	public abstract List<Proveedor> findByOrderByRazonsocialAsc();
-	
+	@Query("select p from Proveedor p where "
+	        + " p.razonsocial like ?1 and "
+	        + " p.direccion like ?2 and "
+	        + " p.ruc like ?3 and "
+	        + " p.telefono like ?4 and "
+	        + " p.celular like ?5 and "
+	        + " p.contacto like ?6 and "
+	        + " p.estado = ?7 and "
+	        + " (?8 = -1 or p.pais.idPais = ?8) and "
+	        + " (?9 = -1 or p.tipoProveedor.idDataCatalogo = ?9) ")
+	public abstract List<Proveedor> listaCompleja(String razonsocial, 
+												  String direccion, 
+	                                              String ruc, 
+	                                              String telefono, 
+	                                              String celular, 
+	                                              String contacto, 
+	                                              int estado, 
+	                                              int idPais, 
+	                                              int idTipoProveedor);
+
 }
