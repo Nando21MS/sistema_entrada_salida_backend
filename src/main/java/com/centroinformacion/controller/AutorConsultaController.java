@@ -256,7 +256,7 @@ public class AutorConsultaController {
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstSalida);
 
 			//PASO 2: DISEÑO DE REPORTE
-			String fileReporte = request.getServletContext().getRealPath("ReporteAutor.jasper");
+			String fileReporte = request.getServletContext().getRealPath("reporteAutor.jasper");
 	
 			//PASO 3: PARÁMETROS ADICIONALES
 			Map<String, Object> params = new HashMap<String, Object>();
