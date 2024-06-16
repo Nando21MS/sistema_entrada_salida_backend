@@ -70,7 +70,7 @@ public class ProveedorConsultaController {
 	    }
 	    private static String[] HEADERs = { "CÓDIGO", "RAZÓN SOCIAL","DIRECCIÓN","RUC","TELÉFONO","CELULAR","CONTACTO", "ESTADO", "PAÍS","TIPO" };
 		private static String SHEET = "Listado de Proveedor";
-		private static String TITLE = "Listado de Editorial - Autor: Luzdany Cabanillas";
+		private static String TITLE = "Listado de Proveedor - Autor: Luzdany Cabanillas";
 		private static int[] HEADER_WITH = { 3000, 6000, 6000, 6000, 6000, 6000, 6000,6000,6000,6000 };
 		
 		@PostMapping("/reporteProveedorExcel")
