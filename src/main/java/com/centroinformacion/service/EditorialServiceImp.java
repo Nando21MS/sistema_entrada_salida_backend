@@ -1,5 +1,6 @@
 package com.centroinformacion.service;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,12 @@ public class EditorialServiceImp implements EditorialService {
 	@Override
 	public List<Editorial> listaPorRazonSocial(String razonSocial) {
 		return repository.findByRazonSocial(razonSocial);
+	}
+
+	@Override
+	public List<Editorial> listaCompleja(String razonSocial, String direccion, String ruc, String gerente, Date fecIni,
+			Date fecFin, int estado, int idPais) {
+		return repository.listaCompleja(razonSocial, direccion, ruc, gerente, fecIni, fecFin, estado, idPais);
 	}
 
 }
