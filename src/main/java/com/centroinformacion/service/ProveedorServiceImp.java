@@ -57,6 +57,12 @@ public class ProveedorServiceImp implements ProveedorService {
 		// TODO Auto-generated method stub
 		return repository.findByContacto(contacto);
 	}
+	@Override
+	public List<Proveedor> listaCompleja(String razonsocial, String direccion, String ruc, String telefono,
+			String celular, String contacto, int estado, int idPais, int idTipoProveedor) {
+		// TODO Auto-generated method stub
+		return repository.listaCompleja(razonsocial, direccion, ruc, telefono, celular, contacto, estado, idPais, idTipoProveedor);
+	}
 	
 	
 }
