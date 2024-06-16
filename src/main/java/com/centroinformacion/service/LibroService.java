@@ -23,7 +23,8 @@ public interface LibroService {
 		//CONSULTA
 		public abstract List<Libro> listaConsultaCompleja(
 			    String titulo,
-			    int anio,
+			    int anioDesde,
+			    int anioHasta,
 			    String serie,
 			    int estado,
 			    int idCategoriaLibro,
