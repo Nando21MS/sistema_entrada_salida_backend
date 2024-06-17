@@ -1,7 +1,9 @@
 package com.centroinformacion.service;
 
+import java.util.Date;
 import java.util.List;
 import com.centroinformacion.entity.Editorial;
+import com.centroinformacion.entity.Revista;
 
 public interface EditorialService {
 //Para el crud  
@@ -17,5 +19,5 @@ public interface EditorialService {
 
 	public abstract List<Editorial> listaEditorialPorRazonSocialIgualRegistra(String razonSocial);
 	public abstract List<Editorial> listaEditorialPorRazonSocialIgualActualiza(String razonSocial, int idEditorial);
-	
+	public abstract List<Editorial> listaCompleja(String razonSocial, String direccion,String ruc,String gerente, Date fecIni, Date fecFin, int estado,	int idPais);
 }

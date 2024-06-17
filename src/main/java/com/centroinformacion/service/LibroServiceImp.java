@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service; // Añade esta importación
 import com.centroinformacion.entity.Libro;
 import com.centroinformacion.repository.LibroRepository;
 
+
 @Service // Añade esta anotación
 public class LibroServiceImp implements LibroService{
 	
@@ -46,5 +47,15 @@ public class LibroServiceImp implements LibroService{
 	public List<Libro> listaLibroPorTituloIgualActualiza(String titulo, int idLibro) {
 		return repository.listaPorTituloIgualActualiza(titulo, idLibro);
 	}
+
+	@Override
+	public List<Libro> listaConsultaCompleja(String titulo, int anioDesde,int anioHasta, String serie, int estado, int idCategoriaLibro,
+			int idEstadoPrestamo, int idTipoLibro, int idEditorial) {
+		return repository.listaConsultaCompleja(titulo, anioDesde, anioHasta, serie, estado, idCategoriaLibro, idEstadoPrestamo, idTipoLibro, idEditorial);
+	}
+	
+
+	
+	
 	
 }

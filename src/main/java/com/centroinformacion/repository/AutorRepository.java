@@ -1,5 +1,6 @@
 package com.centroinformacion.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,4 +36,27 @@ public interface AutorRepository extends JpaRepository<Autor, Integer>{
 	
 	@Query("select a from Autor a where a.telefono = ?1 and a.idAutor != ?2")
 	List<Autor> listaAutorPorTelefonoIgualActualiza(String telefono , int idAutor);
+	
+	@Query("select a from Autor a where "
+			+ " a.nombres like ?1  and "
+			+ " a.apellidos like ?2 and "
+			+ " a.fechaNacimiento >= ?3 and "
+			+ " a.fechaNacimiento <= ?4 and "
+			+ " a.telefono like ?5 and "
+			+ " a.celular like ?6 and "
+			+ " a.orcid like ?7 and "
+			+ " a.estado =?8 and "
+			+ " (?9 = -1 or a.pais.idPais = ?9) and "
+			+ " (?10 = -1 or a.grado.idDataCatalogo = ?10) ")
+	public abstract List<Autor> listaConsultaCompleja(
+			String nombres, 
+			String apellidos, 
+			Date fechaNacimientoDesde, 
+			Date fechaNacimientoHasta, 
+			String telefono,
+			String celular,
+			String orcid, 
+			int estado, 
+			int idPais,
+			int idGrado);
 }

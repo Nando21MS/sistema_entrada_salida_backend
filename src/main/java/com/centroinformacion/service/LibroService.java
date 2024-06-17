@@ -19,5 +19,19 @@ public interface LibroService {
 
 		//VALIDACION PARA ACTUALIZAR
 		public abstract List<Libro> listaLibroPorTituloIgualActualiza(String titulo, int idLibro);
+		
+		//CONSULTA
+		public abstract List<Libro> listaConsultaCompleja(
+			    String titulo,
+			    int anioDesde,
+			    int anioHasta,
+			    String serie,
+			    int estado,
+			    int idCategoriaLibro,
+			    int idEstadoPrestamo,
+			    int idTipoLibro,
+			    int idEditorial
+			);
+
 
 }

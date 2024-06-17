@@ -1,5 +1,4 @@
 package com.centroinformacion.controller;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,8 +33,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.centroinformacion.entity.Tesis;
-import com.centroinformacion.service.TesisService;
+import com.centroinformacion.entity.Editorial;
+import com.centroinformacion.entity.Revista;
+import com.centroinformacion.service.EditorialService;
 import com.centroinformacion.util.AppSettings;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,52 +47,50 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+
 @RestController
-@RequestMapping("/url/consultaTesis")
+@RequestMapping("/url/consultaEditorial")
 @CrossOrigin(origins = AppSettings.URL_CROSS_ORIGIN)
-public class TesisConsultaController {
-	
+public class EditorialConsultaController {
 	@Autowired
-	private TesisService tesisService;
+	private EditorialService editorialService;
 	
-	/*PC3 - CONSULTA*/
-	@GetMapping("/consultaTesisPorParametros")
+	@GetMapping("/consultaEditorialPorParametros")
 	@ResponseBody
-	public ResponseEntity<?> consultaTesisPorParametros(
-			@RequestParam(name = "titulo" , required = true , defaultValue = "") String nombre,
+	public ResponseEntity<?> consultaEditorialPorParametros(
+			@RequestParam(name = "razonSocial" , required = true , defaultValue = "") String razonSocial,
+			@RequestParam(name = "direccion" , required = true , defaultValue = "") String direccion,
+			@RequestParam(name = "ruc" , required = true , defaultValue = "") String ruc,
+			@RequestParam(name = "gerente" , required = true , defaultValue = "") String gerente,
 			@RequestParam(name = "fecDesde" , required = true , defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecDesde,
 			@RequestParam(name = "fecHasta" , required = true , defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecHasta,
 			@RequestParam(name = "estado" , required = true , defaultValue = "") int estado,
-			@RequestParam(name = "idTema" , required = false , defaultValue = "-1") int idTema,
-			@RequestParam(name = "idIdioma" , required = false , defaultValue = "-1") int idIdioma,
-			@RequestParam(name = "idCentroEstudios" , required = false , defaultValue = "-1") int idCentroEstudios
-			){
-		List<Tesis> lstSalida = tesisService.listaConsultaCompleja(
-								"%"+nombre+"%", fecDesde, fecHasta, estado, idTema, idIdioma, idCentroEstudios);
+			@RequestParam(name = "idPais" , required = false , defaultValue = "-1") int idPais			){
 		
+		List<Editorial> lstSalida =editorialService.listaCompleja("%"+razonSocial+"%", "%"+direccion+"%", "%"+ruc+"%", "%"+gerente+"%", fecDesde, fecHasta, estado, idPais);
 		return ResponseEntity.ok(lstSalida);
 	}
+	private static String[] HEADERs = { "CÓDIGO", "RAZÓN SOCIAL","DIRECCIÓN","RUC","GERENTE", "FECHA CREACIÓN", "ESTADO", "PAÍS" };
+	private static String SHEET = "Listado de Editorial";
+	private static String TITLE = "Listado de Editorial - Autor: Jans Vargas";
+	private static int[] HEADER_WITH = { 3000, 10000, 10000, 6000, 6000, 6000, 6000,6000 };
 	
-	/*PC3 - REPORTE*/
-	private static String[] HEADERs = {"CÓDIGO", "TÍTULO", "FECHA CREACIÓN", "ESTADO", "TEMA", "IDIOMA", "CENTRO DE ESTUDIOS"};
-	private static String SHEET = "Listado de Tesis";
-	private static String TITLE = "Listado de Tesis - Autor: Fernando Manrique Solano";
-	private static int[] HEADER_WITH = { 3000, 13000, 6000, 6000, 6000, 6000, 6000 };
-	
-	@PostMapping("/reporteTesisExcel")
-	public void reporteExcel(@RequestParam(name = "titulo" , required = true , defaultValue = "") String nombre,
-			@RequestParam(name = "fecDesde" , required = true , defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecDesde,
-			@RequestParam(name = "fecHasta" , required = true , defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecHasta,
-			@RequestParam(name = "estado" , required = true , defaultValue = "") int estado,
-			@RequestParam(name = "idTema" , required = false , defaultValue = "-1") int idTema,
-			@RequestParam(name = "idIdioma" , required = false , defaultValue = "-1") int idIdioma,
-			@RequestParam(name = "idCentroEstudios" , required = false , defaultValue = "-1") int idCentroEstudios,
+	@PostMapping("/reporteEditorialExcel")
+	public void reporteExcel(
+			@RequestParam(name = "razonSocial", required = true, defaultValue = "") String razonSocial,
+			@RequestParam(name = "direccion", required = true, defaultValue = "") String direccion,
+			@RequestParam(name = "ruc", required = true, defaultValue = "") String ruc,
+			@RequestParam(name = "gerente", required = true, defaultValue = "") String gerente,
+			@RequestParam(name = "fecDesde", required = true, defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecDesde,
+			@RequestParam(name = "fecHasta", required = true, defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecHasta,
+			@RequestParam(name = "estado", required = true, defaultValue = "") int estado,
+			@RequestParam(name = "idPais", required = false, defaultValue = "-1") int idPais,
 			HttpServletRequest request, HttpServletResponse response) {
-		
+
 		Workbook excel = null;
 		try  {
 			excel = new XSSFWorkbook();
-			
+					
 			// Se crear la hoja del Excel
 			Sheet hoja = excel.createSheet(SHEET);
 
@@ -103,7 +101,7 @@ public class TesisConsultaController {
 			for (int i = 0; i < HEADER_WITH.length; i++) {
 				hoja.setColumnWidth(i, HEADER_WITH[i]);
 			}
-			
+
 			// Fuenta
 			Font fuente = excel.createFont();
 			fuente.setFontHeightInPoints((short) 10);
@@ -159,55 +157,62 @@ public class TesisConsultaController {
 
 			// formato para fecha
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			
-			List<Tesis> lstSalida = tesisService.listaConsultaCompleja(
-					"%"+nombre+"%", fecDesde, fecHasta, estado, idTema, idIdioma, idCentroEstudios);
 
-	       // Filas de datos
-	        int rowIdx = 3;
-	        for (Tesis obj : lstSalida) {
-	        	Row row = hoja.createRow(rowIdx++);
+			// Fila 3....n
+			List<Editorial> lstSalida =editorialService.listaCompleja("%"+razonSocial+"%","%" +direccion+"%","%"+ruc+"%","%"+gerente+"%",fecDesde, fecHasta, estado, idPais);
+			
+			//List<Revista> lstSalida = revistaService.listaTodos();
+			// Filas de datos
+			int rowIdx = 3;
+			for (Editorial obj : lstSalida) {
+				Row row = hoja.createRow(rowIdx++);
 
 				Cell cel0 = row.createCell(0);
-				cel0.setCellValue(obj.getIdTesis());
+				cel0.setCellValue(obj.getIdEditorial());
 				cel0.setCellStyle(estiloDatosCentrado);
 				
 				Cell cel1 = row.createCell(1);
-				cel1.setCellValue(obj.getTitulo());
+				cel1.setCellValue(obj.getRazonSocial());
 				cel1.setCellStyle(estiloDatosIzquierdo);
 				
 				Cell cel2 = row.createCell(2);
-				cel2.setCellValue(sdf.format(obj.getFechaCreacion()));
-				cel2.setCellStyle(estiloDatosCentrado);
+				cel2.setCellValue(obj.getDireccion());
+				cel2.setCellStyle(estiloDatosIzquierdo);
 				
 				Cell cel3 = row.createCell(3);
-				cel3.setCellValue(obj.getEstado()==1?AppSettings.ACTIVO_DESC:AppSettings.INACTIVO_DESC);
-				cel3.setCellStyle(estiloDatosCentrado);
+				cel3.setCellValue(obj.getRuc());
+				cel3.setCellStyle(estiloDatosIzquierdo);
 				
 				Cell cel4 = row.createCell(4);
-				cel4.setCellValue(obj.getTema().getDescripcion());
-				cel4.setCellStyle(estiloDatosCentrado);
+				cel4.setCellValue(obj.getGerente());
+				cel4.setCellStyle(estiloDatosIzquierdo);
 				
 				Cell cel5 = row.createCell(5);
-				cel5.setCellValue(obj.getIdioma().getDescripcion());
+				cel5.setCellValue(sdf.format(obj.getFechaCreacion()));
 				cel5.setCellStyle(estiloDatosCentrado);
-	        	
+				
 				Cell cel6 = row.createCell(6);
-				cel6.setCellValue(obj.getCentroEstudios().getDescripcion());
+				cel6.setCellValue(obj.getEstado()==1?AppSettings.ACTIVO_DESC:AppSettings.INACTIVO_DESC);
 				cel6.setCellStyle(estiloDatosCentrado);
-	        }
+				
+				Cell cel7 = row.createCell(7);
+				cel7.setCellValue(obj.getPais().getNombre());
+				cel7.setCellStyle(estiloDatosCentrado);
+				
+				
+			}
 
-	        // Tipo de archivo y nombre de archivo
-	        response.setContentType("application/vnd.ms-excel");
-	        response.addHeader("Content-disposition", "attachment; filename=ReporteTesis.xlsx");
+			// Tipo de archivo y nombre de archivo
+			response.setContentType("application/vnd.ms-excel");
+			response.addHeader("Content-disposition", "attachment; filename=ReporteEditorial.xlsx");
 
-	        OutputStream outStream = response.getOutputStream();
-	        excel.write(outStream);
-	        outStream.close();
+			OutputStream outStream = response.getOutputStream();
+			excel.write(outStream);
+			outStream.close();
 
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    } finally {
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
 			try {
 				if (excel != null)
 					excel.close();
@@ -217,43 +222,43 @@ public class TesisConsultaController {
 		}
 
 	}
-	
-	@PostMapping("/reporteTesisPDF")
-	public void reportePDF(@RequestParam(name = "titulo" , required = true , defaultValue = "") String nombre,
-			@RequestParam(name = "fecDesde" , required = true , defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecDesde,
-			@RequestParam(name = "fecHasta" , required = true , defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecHasta,
-			@RequestParam(name = "estado" , required = true , defaultValue = "") int estado,
-			@RequestParam(name = "idTema" , required = false , defaultValue = "-1") int idTema,
-			@RequestParam(name = "idIdioma" , required = false , defaultValue = "-1") int idIdioma,
-			@RequestParam(name = "idCentroEstudios" , required = false , defaultValue = "-1") int idCentroEstudios,
+	@PostMapping("/reporteEditorialPDF")
+	public void reportePDF(@RequestParam(name = "razonSocial", required = true, defaultValue = "") String razonSocial,
+			@RequestParam(name = "direccion", required = true, defaultValue = "") String direccion,
+			@RequestParam(name = "ruc", required = true, defaultValue = "") String ruc,
+			@RequestParam(name = "gerente", required = true, defaultValue = "") String gerente,
+			@RequestParam(name = "fecDesde", required = true, defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecDesde,
+			@RequestParam(name = "fecHasta", required = true, defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecHasta,
+			@RequestParam(name = "estado", required = true, defaultValue = "") int estado,
+			@RequestParam(name = "idPais", required = false, defaultValue = "-1") int idPais,
 			HttpServletRequest request, HttpServletResponse response) {
-		
 		try {
-			//PASO 1: FUENTE DE DATOS
-			List<Tesis> lstSalida = tesisService.listaConsultaCompleja(
-					"%"+nombre+"%", fecDesde, fecHasta, estado, idTema, idIdioma, idCentroEstudios);
-			
+
+			// PASO 1 Fuente de datos
+			List<Editorial> lstSalida =editorialService.listaCompleja("%"+razonSocial+"%","%" +direccion+"%","%"+ruc+"%","%"+gerente+"%",fecDesde, fecHasta, estado, idPais);
+
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstSalida);
 
-			//PASO 2: DISEÑO DE REPORTE
-			String fileReporte = request.getServletContext().getRealPath("reporteTesis.jasper");
-	
-			//PASO 3: PARÁMETROS ADICIONALES
+			// PASO 2 Diseño de reporte
+			String fileReporte = request.getServletContext().getRealPath("/reporteEditorial.jasper");
+
+			// PASO3 parámetros adicionales
 			Map<String, Object> params = new HashMap<String, Object>();
-	
+
 			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(new FileInputStream(new File(fileReporte)));
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
-	
+
 			// PASO 5 parametros en el Header del mensajes HTTP
 			response.setContentType("application/pdf");
-			response.addHeader("Content-disposition", "attachment; filename=ReporteTesis.pdf");
-	
+			response.addHeader("Content-disposition", "attachment; filename=ReporteAutor.pdf");
+
 			// PASO 6 Se envia el pdf
 			OutputStream outStream = response.getOutputStream();
 			JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
-	
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 }
+
