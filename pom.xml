@@ -74,8 +74,12 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>4.1.2</version>
 		</dependency>
+	<dependency>
+    <groupId>net.sf.jasperreports</groupId>
+    <artifactId>jasperreports</artifactId>
+    <version>6.21.3</version>
+</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>

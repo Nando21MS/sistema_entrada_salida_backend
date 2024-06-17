@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.centroinformacion.util.FunctionUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -73,6 +74,20 @@ public class Alumno {
 	@JoinColumn(name = "idUsuarioActualiza")
 	private Usuario usuarioActualiza;
 	
+	public String getReporteEstado() {
+		return estado == 1 ? "Activo" : "Inactivo";
+	}
+	
+	public String getReportePais() {
+		return pais.getNombre();
+	}
+
+	public String getReporteFechaNacimiento() {
+		return FunctionUtil.getFechaString(fechaNacimiento);
+	}
+	public String getReporteModalidad() {
+		return modalidad.getDescripcion();
+	}
 	
 
    

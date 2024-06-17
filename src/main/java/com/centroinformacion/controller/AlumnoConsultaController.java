@@ -1,9 +1,13 @@
 package com.centroinformacion.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -35,6 +39,12 @@ import com.centroinformacion.util.AppSettings;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 @RestController
 @RequestMapping("/url/consultaAlumno")
@@ -234,5 +244,49 @@ public class AlumnoConsultaController {
 			}
 		}
 	
-	
+		@PostMapping("/reporteAlumnoPDF")
+		public void reportePDF(@RequestParam(name = "nombres", required = true, defaultValue = "") String nombres,
+				@RequestParam(name = "apellidos", required = true, defaultValue = "") String apellidos,
+				@RequestParam(name = "telefono", required = true, defaultValue = "") String telefono,
+				@RequestParam(name = "celular", required = true, defaultValue = "") String celular,
+				@RequestParam(name = "dni", required = true, defaultValue = "") String dni,
+				@RequestParam(name = "correo", required = true, defaultValue = "") String correo,
+				@RequestParam(name = "tipoSangre", required = true, defaultValue = "") String tipoSangre,
+				@RequestParam(name = "fechaNacimientoDesde", required = true, defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimientoDesde,
+				@RequestParam(name = "fechaNacimientoHasta", required = true, defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimientoHasta,
+				@RequestParam(name = "estado", required = true, defaultValue = "") int estado,
+				@RequestParam(name = "idPais", required = false, defaultValue = "-1") int idPais,
+				@RequestParam(name = "idModalidad", required = false, defaultValue = "-1") int idModalidad,
+				HttpServletRequest request, HttpServletResponse response) {
+			try {
+				//PASO 1 Fuente de datos
+				List<Alumno> lstSalida = alumnoService.listaConsultaCompleja("%" + nombres + "%", "%" + apellidos + "%",
+						"%" + telefono + "%", "%" + celular + "%", "%" + dni + "%", "%" + correo + "%",
+						"%" + tipoSangre + "%", fechaNacimientoDesde, fechaNacimientoHasta, estado, idPais,
+						idModalidad);
+				
+				JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstSalida);
+
+				//PASO 2 Diseño de reporte
+				String fileReporte = request.getServletContext().getRealPath("/reporteAlumno.jasper");
+				
+				//PASO 3 parametros adicionales
+				Map<String, Object> params = new HashMap<String, Object>();
+				
+				//PASO 4
+				JasperReport jasperReport = (JasperReport) JRLoader.loadObject(new FileInputStream(new File(fileReporte)));
+				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
+				
+				// PASO 5 parametros en el Header del mensajes HTTP
+				response.setContentType("application/pdf");
+				response.addHeader("Content-disposition", "attachment; filename=ReporteAlumno.pdf");
+				
+				// PASO 6 Se envia el pdf
+				OutputStream outStream = response.getOutputStream();
+				JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}
 }
