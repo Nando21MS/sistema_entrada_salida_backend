@@ -37,14 +37,14 @@ public class AutorServiceImp implements AutorService {
 	}
 
 	@Override
-    public List<Autor> listaAutorPorNombresIgualRegistra(String nombres) {
-        return repository.listaPorNombresIgualRegistra(nombres);
+    public List<Autor> listaPorNombresYApellidosIgual(String nombres, String apellidos) {
+        return repository.listaPorNombresYApellidosIgual(nombres, apellidos);
     }
     
-    @Override
+    /*@Override
     public List<Autor> listaAutorPorApellidosIgualRegistra(String apellidos) {
         return repository.listaPorApellidosIgualRegistra(apellidos);
-    }
+    }*/
 
     @Override
     public List<Autor> listaAutorPorCelularIgualRegistra(String celular) {
@@ -52,8 +52,8 @@ public class AutorServiceImp implements AutorService {
     }
 
 	@Override
-	public List<Autor> listaAutorPorNombresIgualActualiza(String nombres, int idAutor) {
-		return repository.listaPorNombresIgualActualiza(nombres, idAutor);
+	public List<Autor> listaPorNombresApellidosIgualActualiza(String nombres,String apellidos, int idAutor) {
+		return repository.listaPorNombresApellidosIgualActualiza(nombres,apellidos, idAutor);
 	}
 	
 	@Override
@@ -61,10 +61,10 @@ public class AutorServiceImp implements AutorService {
         return repository.listaAutorPorTelefonoIgualRegistra(telefono);
     }
 
-	@Override
+	/*@Override
 	public List<Autor> listaAutorPorApellidosIgualActualiza(String apellidos, int idAutor) {
 		 return repository.listaPorApellidosIgualActualiza(apellidos, idAutor);
-	}
+	}*/
 
 	@Override
 	public List<Autor> listaAutorPorCelularIgualActualiza(String celular, int idAutor) {
