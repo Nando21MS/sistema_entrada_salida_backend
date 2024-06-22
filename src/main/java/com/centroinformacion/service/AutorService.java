@@ -14,14 +14,16 @@ public interface AutorService {
 	public abstract List<Autor> listaAutor();
 
 	// Validaciones Para Registrar
-	List<Autor> listaAutorPorNombresIgualRegistra(String nombres);
-    List<Autor> listaAutorPorApellidosIgualRegistra(String apellidos);
+	//List<Autor> listaAutorPorNombresIgualRegistra(String nombres);
+	List<Autor> listaPorNombresYApellidosIgual(String nombres, String apellidos);
+    //List<Autor> listaAutorPorApellidosIgualRegistra(String apellidos);
     List<Autor> listaAutorPorCelularIgualRegistra(String celular);
     List<Autor> listaAutorPorTelefonoIgualRegistra(String telefono);
 
 	// Validaciones Para Actualizar
-	List<Autor> listaAutorPorNombresIgualActualiza(String nombres, int idAutor);
-	List<Autor> listaAutorPorApellidosIgualActualiza(String apellidos,  int idAutor);
+	//List<Autor> listaAutorPorNombresIgualActualiza(String nombres, int idAutor);
+	//List<Autor> listaAutorPorApellidosIgualActualiza(String apellidos,  int idAutor);
+	List<Autor> listaPorNombresApellidosIgualActualiza(String nombres, String apellidos, int idAutor);
     List<Autor> listaAutorPorCelularIgualActualiza(String celular,  int idAutor);
     List<Autor> listaAutorPorTelefonoIgualActualiza(String telefono,  int idAutor);
 
