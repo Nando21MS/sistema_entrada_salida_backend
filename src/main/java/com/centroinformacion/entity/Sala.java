@@ -66,4 +66,18 @@ public class Sala {
 	@JoinColumn(name = "idEstadoReserva")
 	private DataCatalogo estadoReserva;
 
-}
+	
+	// Para el reportes
+		public String getReporteEstado() {
+			return estado == 1 ? "Activo" : "Inactivo";
+		}
+		public String getReporteTipoSala() {
+			return tipoSala.getIdDataCatalogo()+"-"+tipoSala.getDescripcion();
+		}
+		public String getReporteSede() {
+			return sede.getIdDataCatalogo()+"-"+sede.getDescripcion();
+		}
+		public String getReporteEstadoReserva() {
+			return estadoReserva.getIdDataCatalogo()+"-"+estadoReserva.getDescripcion();
+		}
+	}

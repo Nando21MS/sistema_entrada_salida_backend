@@ -46,5 +46,11 @@ public class SalaServicelmp implements SalaService {
 		repository.deleteById(idSala);
 		
 	}
-	
+
+	@Override
+	public List<Sala> listaConsultaCompleja(String numero, int piso, int numAlumnos, String recursos, int estado,
+			int idTipoSala, int idSede, int idEstadoReserva) {
+
+		return repository.listaConsultaCompleja(numero, piso, numAlumnos, recursos, estado, idTipoSala, idSede, idEstadoReserva);
+	}
 }

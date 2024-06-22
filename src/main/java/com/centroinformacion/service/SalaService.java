@@ -20,5 +20,8 @@ public interface SalaService {
 	public abstract List<Sala> listaSalaPorNombreIgualActualiza(String numero, int idSala);
 	
 	public abstract void eliminaSala(int idSala);
-
+	
+	//Para la consulta
+	public abstract List<Sala> listaConsultaCompleja(String numero, int piso, int numAlumnos, String recursos, int estado, int idTipoSala, int idSede, int idEstadoReserva);
+	
 }
