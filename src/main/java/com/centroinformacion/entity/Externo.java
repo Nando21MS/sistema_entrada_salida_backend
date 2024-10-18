@@ -2,9 +2,6 @@ package com.centroinformacion.entity;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.centroinformacion.util.FunctionUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -24,22 +21,34 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "editorial")
-public class Editorial {
-
+@Table(name = "externo")
+public class Externo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idEditorial;
-	private String razonSocial;
-	private String direccion;
-	private String ruc;
-	private String gerente;
+	private int idExterno;
+	private String nombres;
+	private String apellidos;
+	private String celular;
 	
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "America/Lima")
-	private Date fechaCreacion;
-
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idTipoDoc")
+	private TipoDocumento tipoDocumento;
+	
+	private String nroDoc;
+	private String motivo;
+	private int estado;	
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idUsuarioRegistro")
+	private Usuario usuarioRegistro;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idUsuarioActualiza")
+	private Usuario usuarioActualiza;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
 	private Date fechaRegistro;
@@ -47,35 +56,11 @@ public class Editorial {
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
 	private Date fechaActualizacion;
-
-	private int estado;
-
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idPais")
-	private Pais pais;
-
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idUsuarioRegistro")
-	private Usuario usuarioRegistro;
-
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idUsuarioActualiza")
-	private Usuario usuarioActualiza;
-
-	// Para el reportes
-		public String getReporteEstado() {
-			return estado == 1 ? "Activo" : "Inactivo";
-		}
-		public String getReportePais() {
-		    return pais.getNombre();
-		}
-
-		public String getReporteFechaCreacion() {
-			return FunctionUtil.getFechaString(fechaCreacion);
-		}
 	
-
+	public String getReporteEstado() {
+		return estado == 1 ? "Activo" : "Inactivo";
+	}
+	public String getReporteModalidad() {
+		return tipoDocumento.getDescripcion();
+	}
 }
