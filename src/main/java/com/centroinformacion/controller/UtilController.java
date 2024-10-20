@@ -17,6 +17,7 @@ import com.centroinformacion.util.AppSettings;
 @RequestMapping("/url/util")
 @CrossOrigin(origins = AppSettings.URL_CROSS_ORIGIN)
 public class UtilController {
+	@Autowired
 	private TipoDocService tipoDocService;
 	
 	@GetMapping("/listaTipoDoc")
