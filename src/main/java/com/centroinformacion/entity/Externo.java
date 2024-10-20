@@ -60,7 +60,7 @@ public class Externo {
 	public String getReporteEstado() {
 		return estado == 1 ? "Activo" : "Inactivo";
 	}
-	public String getReporteModalidad() {
+	public String getTipoDocumento() {
 		return tipoDocumento.getDescripcion();
 	}
 }
