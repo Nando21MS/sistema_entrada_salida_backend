@@ -21,44 +21,39 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "externo")
+@Table(name = "persona_externa")
 public class Externo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idExterno;
+	private int idPersonaExterna;
 	private String nombres;
 	private String apellidos;
+	private String num_doc;
 	private String celular;
+	private String correo;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date fechaRegistro;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idTipoDoc")
 	private TipoDocumento tipoDocumento;
 	
-	private String nroDoc;
-	private String motivo;
-	private int estado;	
-	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idUsuarioRegistro")
+	@JoinColumn(name = "idUsuario")
 	private Usuario usuarioRegistro;
 	
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idUsuarioActualiza")
-	private Usuario usuarioActualiza;
+	private int estado;
+	private String motivo;	
+	private String foto;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-	private Date fechaRegistro;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-	private Date fechaActualizacion;
+	
 	
 	public String getReporteEstado() {
-		return estado == 1 ? "Activo" : "Inactivo";
+		return estado == 1 ? "Ingreso" : "No Ingreso";
 	}
 	public String getTipoDocumento() {
 		return tipoDocumento.getDescripcion();
