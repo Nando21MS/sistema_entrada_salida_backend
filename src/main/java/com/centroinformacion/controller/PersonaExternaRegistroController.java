@@ -2,6 +2,7 @@ package com.centroinformacion.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ public class PersonaExternaRegistroController {
 		try {
 			obj.setFechaRegistro(new Date());
 			obj.setEstado(AppSettings.INGRESÓ);
+			
+			List<Externo>ltsBusquedaDni = pExternaService.listaNumDoc(obj.getNum_doc());
+			if(!ltsBusquedaDni.isEmpty()) {
+				salida.put("mensaje", "El número "+ obj.getNum_doc()+" de documento ya existe");
+				return ResponseEntity.ok(salida);
+			}
 			
 			Externo objSalida = pExternaService.registroExterno(obj);
 			if(objSalida == null) {
