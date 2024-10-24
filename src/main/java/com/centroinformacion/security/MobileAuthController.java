@@ -1,62 +1,45 @@
 package com.centroinformacion.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
+import com.centroinformacion.entity.Usuario;
+import com.centroinformacion.service.UsuarioService;
 import com.centroinformacion.util.AppSettings;
-import com.centroinformacion.security.JwtProvider;
-import com.centroinformacion.security.LoginUsuario;
-import com.centroinformacion.security.UsuarioPrincipal;
 
 @RestController
-@RequestMapping("/url/mobile/auth")
+@RequestMapping("/url/mobile")
 @CrossOrigin(origins = AppSettings.URL_CROSS_ORIGIN)
 public class MobileAuthController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtProvider jwtProvider;
+    private UsuarioService usuarioService;  // Inyección de dependencia
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginUsuario loginUsuario) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginUsuario.getLogin(), loginUsuario.getPassword())
-            );
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = jwtProvider.generateToken(authentication);
-            
-            UsuarioPrincipal usuario = (UsuarioPrincipal) authentication.getPrincipal();
-
-            // Respuesta simplificada para la app móvil
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", jwt);
-            response.put("login", usuario.getUsername());
-            response.put("nombreCompleto", usuario.getNombreCompleto());
-            response.put("idUsuario", usuario.getIdUsuario());
-
-            return ResponseEntity.ok(response);
-        } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error en la autenticación.");
+    public ResponseEntity<?> login(@RequestBody LoginUsuario request, HttpServletRequest httpRequest, HttpServletResponse response) {
+        // Autenticación del usuario
+        Usuario usuario = usuarioService.authenticate(request.getLogin(), request.getPassword());
+        if (usuario == null) {
+            System.out.println("Usuario no encontrado o contraseña incorrecta.");
+            return ResponseEntity.status(401).body("Credenciales inválidas.");
         }
+
+        // Crear sesión
+        HttpSession session = httpRequest.getSession();
+        session.setAttribute("idUsuario", usuario.getIdUsuario());
+        session.setAttribute("nombres", usuario.getNombres());
+        session.setAttribute("apellidos", usuario.getApellidos());
+        session.setAttribute("dni", usuario.getDni());
+
+        return ResponseEntity.ok("Inicio de sesión exitoso.");
     }
 }

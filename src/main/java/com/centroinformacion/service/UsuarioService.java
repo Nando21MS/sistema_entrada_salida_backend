@@ -15,4 +15,7 @@ public interface UsuarioService {
 	public abstract Usuario buscaPorLogin(String login);
 
 	public abstract Usuario buscaPorId(int idUsuario);
+	
+	public abstract Usuario authenticate(String login, String password);
+
 }
