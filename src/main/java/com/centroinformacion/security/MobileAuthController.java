@@ -1,5 +1,7 @@
 package com.centroinformacion.security;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,6 +42,11 @@ public class MobileAuthController {
         session.setAttribute("apellidos", usuario.getApellidos());
         session.setAttribute("dni", usuario.getDni());
 
-        return ResponseEntity.ok("Inicio de sesión exitoso.");
+        // Devolver el idUsuario como parte de la respuesta
+        return ResponseEntity.ok(Map.of(
+            "idUsuario", usuario.getIdUsuario(),
+            "nombres", usuario.getNombres(),
+            "apellidos", usuario.getApellidos()
+        ));
     }
 }
