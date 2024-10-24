@@ -28,9 +28,9 @@ public class ConsultaReporteController {
 	@GetMapping("/consultaReporteAccesos")
 	@ResponseBody
 	public ResponseEntity<?> consultaReporteAccesos(
-	        @RequestParam(name = "codigo", required = true) int codigo,
-	        @RequestParam(name = "fecha", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha,
-	        @RequestParam(name = "estado", required = true) int estado,
+	        @RequestParam(name = "codigo", required = false) int codigo,
+	        @RequestParam(name = "fecha", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha,
+	        @RequestParam(name = "estado", required = false) int estado,
 	        @RequestParam(name = "idRol", required = true, defaultValue = "-1") int idRol) {
 	    // Puedes modificar los parámetros aquí si necesitas agregar '%' para LIKE
 	    List<Accesos> lstSalida = accesosService.listaCompleja(codigo, fecha, estado, idRol);
