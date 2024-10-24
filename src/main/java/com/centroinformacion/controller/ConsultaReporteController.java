@@ -18,23 +18,35 @@ import com.centroinformacion.service.AccesosService;
 import com.centroinformacion.util.AppSettings;
 
 @RestController
-@RequestMapping("/url/consultaReporte")
+@RequestMapping("/url/verConsultaReporte")
 @CrossOrigin(origins = AppSettings.URL_CROSS_ORIGIN)
 public class ConsultaReporteController {
-	
-	@Autowired
-	private AccesosService accesosService;
-	
-	@GetMapping("/consultaReporteAccesos")
-	@ResponseBody
-	public ResponseEntity<?> consultaReporteAccesos(
-	        @RequestParam(name = "codigo", required = false) int codigo,
-	        @RequestParam(name = "fecha", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha,
-	        @RequestParam(name = "estado", required = false) int estado,
-	        @RequestParam(name = "idRol", required = true, defaultValue = "-1") int idRol) {
-	    // Puedes modificar los parámetros aquí si necesitas agregar '%' para LIKE
-	    List<Accesos> lstSalida = accesosService.listaCompleja(codigo, fecha, estado, idRol);
-	    return ResponseEntity.ok(lstSalida);
-	}
+
+    @Autowired
+    private AccesosService accesosService;
+
+    @GetMapping("/consultaReporteAccesos")
+    @ResponseBody
+    public ResponseEntity<?> consultaReporteAccesos(
+        @RequestParam(name = "codigo", required = true, defaultValue = "") String codigo,
+        @RequestParam(name = "fechaDesde", required = true, defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaDesde,
+        @RequestParam(name = "fechaHasta", required = true, defaultValue = "") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaHasta,
+        @RequestParam(name = "idRol", required = false, defaultValue = "-1") int idRol
+    ) {
+        // Agregar prints para verificar parámetros
+        System.out.println("Código: " + codigo);
+        System.out.println("Fecha Desde: " + fechaDesde);
+        System.out.println("Fecha Hasta: " + fechaHasta);
+        System.out.println("ID Rol: " + idRol);
+        
+        List<Accesos> lstSalida = accesosService.listaConsultaCompleja(
+            "%" + codigo + "%",
+            fechaDesde,
+            fechaHasta,
+            idRol
+        );
+        
+        return ResponseEntity.ok(lstSalida);
+    }
 
 }

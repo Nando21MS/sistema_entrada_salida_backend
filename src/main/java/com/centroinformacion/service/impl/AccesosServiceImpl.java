@@ -14,27 +14,27 @@ import com.centroinformacion.service.AccesosService;
 @Service
 public class AccesosServiceImpl implements AccesosService {
 
-	@Autowired
-	private AccesosRepository repository;
-	
-	@Override
-	public List<Accesos> listaPorCodigo(int codigo) {
-		return repository.findByCodigo(codigo);
-	}
+    @Autowired
+    private AccesosRepository repository;
+    
+    @Override
+    public List<Accesos> listaPorCodigo(String codigo) {
+        return repository.findByCodigo(codigo);
+    }
 
-	@Override
-	public List<Accesos> listaPorRol(Rol rol) {
-		return repository.findByRol(rol);
-	}
+    @Override
+    public List<Accesos> listaPorRol(Rol rol) {
+        return repository.findByRol(rol);
+    }
 
-	@Override
-	public List<Accesos> listaPorFecha(Date fecha) {
-		return repository.findByFecha(fecha);
-	}
+    @Override
+    public List<Accesos> listaPorFecha(Date fecha) {
+        return repository.findByFecha(fecha);
+    }
 
-	@Override
-	public List<Accesos> listaCompleja(int codigo, Date fecha, int estado, int idRol) {
-		return repository.listaCompleja(codigo, fecha, estado, idRol);
+    @Override
+	public List<Accesos> listaConsultaCompleja(String codigo, Date fechaDesde, Date fechaHasta,int idRol) {
+		return repository.listaConsultaCompleja(codigo, fechaDesde, fechaHasta, idRol);
 	}
 
 }
