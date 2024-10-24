@@ -2,6 +2,9 @@ package com.centroinformacion.entity;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.centroinformacion.util.FunctionUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -26,10 +29,13 @@ public class Accesos {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idAcceso;
-	private int codigo;
+	private String codigo;
+	private String nombres;
+	private String apellidos;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd" , timezone = "America/Lima")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fecha;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -39,10 +45,22 @@ public class Accesos {
 
 	private int estado;
 	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idUsuario")
+	private Usuario usuarioRegistro;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date fecha_Registro;
+	
 	public String getReporteEstado() {
 		return estado == 1 ? "Ingresó" : "No Ingresó";
 	}
 	public String getRol() {
 		return rol.getNombre();
+	}
+	public String getReporteFecha() {
+		return FunctionUtil.getFechaString(fecha);
 	}
 }

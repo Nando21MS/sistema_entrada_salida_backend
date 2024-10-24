@@ -9,19 +9,20 @@ import org.springframework.data.jpa.repository.Query;
 import com.centroinformacion.entity.Accesos;
 import com.centroinformacion.entity.Rol;
 
-public interface AccesosRepository extends JpaRepository<Accesos, Integer>{
-	public List<Accesos> findByCodigo(int codigo);
-	public List<Accesos> findByRol(Rol idRol);
-	public List<Accesos> findByFecha(Date fecha);
-	
-	@Query("select p from Accesos p where "
-	        + "(p.codigo = ?1) and "
-	        + "(p.fecha = ?2) and "
-	        + "(p.estado = ?3) and "
-	        + "(?4 = -1 or p.rol.idRol = ?4)")
-	public abstract List<Accesos> listaCompleja(int codigo, 
-	                                             Date fecha,
-	                                             int estado,
-	                                             int idRol);
+public interface AccesosRepository extends JpaRepository<Accesos, Integer> {
+    List<Accesos> findByCodigo(String codigo);
+    List<Accesos> findByRol(Rol idRol);
+    List<Accesos> findByFecha(Date fecha);
+    
+    @Query("select a from Accesos a where "
+			+ " a.codigo like ?1  and "
+			+ " a.fecha >= ?2 and "
+			+ " a.fecha <= ?3 and "
+			+ " (?4 = -1 or a.rol.idRol = ?4) ")
+	public abstract List<Accesos> listaConsultaCompleja(
+			String codigo, 
+			Date fechaDesde, 
+			Date fechaHasta,
+			int idRol);
 
 }
