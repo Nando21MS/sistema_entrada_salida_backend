@@ -37,4 +37,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return repository.findById(idUsuario).orElse(null);
 	}
 
+	@Override
+	public Usuario authenticate(String login, String password) {
+		 return repository.findByLoginAndPassword(login, password);
+	}
+
 }
