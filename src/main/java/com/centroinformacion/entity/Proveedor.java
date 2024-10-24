@@ -53,11 +53,11 @@ public class Proveedor {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-	private Date fechaRegistro;
-
+	private Date fecha_Registro;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-	private Date fechaActualizacion;
+	private Date fecha_Actualizacion;
 	
 	public String getReporteEstado() {
 		return estado == 1 ? "Activo" : "Inactivo";
