@@ -20,10 +20,10 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
     
-    @GetMapping("/buscarPorLogin/{login}")
-    public ResponseEntity<?> obtenerUsuarioPorLogin(@PathVariable String login) {
+    @GetMapping("/buscarPorId/{idUsuario}")
+    public ResponseEntity<?> obtenerUsuarioPorId(@PathVariable int idUsuario) {
         try {
-            Usuario usuario = usuarioService.buscaPorLogin(login);
+            Usuario usuario = usuarioService.buscaPorId(idUsuario);
             if (usuario == null) {
                 return ResponseEntity.status(404).body("Usuario no encontrado.");
             }
