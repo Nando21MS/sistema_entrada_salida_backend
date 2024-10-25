@@ -66,9 +66,5 @@ public class Accesos {
 	public String getReporteRol() {
 		return rol.getNombre();
 	}
-	
-	//AGREGAR PARA APARTADO MIS ACCESOS DE APP MOVIL
-	public String getCodigo() {
-        return usuarioRegistro != null ? usuarioRegistro.getLogin() : null;
-    }
+
 }
