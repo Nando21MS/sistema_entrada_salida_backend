@@ -48,4 +48,8 @@ public class Usuario {
 			return ""; 
 		}
 	}
+	
+	public String getLogin() {
+        return login;
+    }
 }

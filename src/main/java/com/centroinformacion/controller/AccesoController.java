@@ -39,9 +39,8 @@ public class AccesoController {
         }
 
         String login = (String) session.getAttribute("login");
-        
         List<Accesos> accesos;
-        
+
         if (fecha == null || fecha.isEmpty()) {
             // Si no se proporciona fecha, obtener todos los accesos del usuario
             accesos = accesoService.listaPorCodigo(login);
@@ -55,11 +54,11 @@ public class AccesoController {
             }
             accesos = accesoService.listaPorCodigoYFecha(login, fechaFiltro);
         }
-        
+
         if (accesos.isEmpty()) {
             return ResponseEntity.status(404).body("No se encontraron accesos para el usuario especificado.");
         }
-        
+
         return ResponseEntity.ok(accesos);
     }
 }

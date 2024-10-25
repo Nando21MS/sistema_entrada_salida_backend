@@ -26,45 +26,57 @@ import lombok.Setter;
 @Entity
 @Table(name = "accesos")
 public class Accesos {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idAcceso;
-	private String codigo;
-	private String nombres;
-	private String apellidos;
-	
-	@Temporal(TemporalType.DATE)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd" , timezone = "America/Lima")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date fecha;
-	
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idRol")
-	private Rol rol;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idAcceso;
 
-	private int estado;
-	
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
-	private Usuario usuarioRegistro;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-	private Date fecha_Registro;
-	
-	public String getReporteEstado() {
-		return estado == 1 ? "Ingreso" : "Salida";
-	}
-	public String getRol() {
-		return rol.getNombre();
-	}
-	public String getReporteFecha() {
-		return FunctionUtil.getFechaString(fecha);
-	}
-	public String getReporteRol() {
-		return rol.getNombre();
-	}
+    private String nombres;
+    private String apellidos;
 
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "America/Lima")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date fecha;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idRol")
+    private Rol rol;
+
+    private int estado;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
+    private Usuario usuarioRegistro;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "codigo", referencedColumnName = "login")
+    private Usuario usuarioRegistrado;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date fecha_Registro;
+
+    public String getReporteEstado() {
+        return estado == 1 ? "Ingreso" : "Salida";
+    }
+
+    public String getRol() {
+        return rol != null ? rol.getNombre() : null; // Añadido null check
+    }
+
+    public String getReporteFecha() {
+        return FunctionUtil.getFechaString(fecha);
+    }
+
+    public String getReporteRol() {
+        return rol != null ? rol.getNombre() : null; // Añadido null check
+    }
+
+    // Para apartado "Mis Accesos" de la app móvil
+    public String getCodigo() {
+        return usuarioRegistrado != null ? usuarioRegistrado.getLogin() : null;
+    }
 }

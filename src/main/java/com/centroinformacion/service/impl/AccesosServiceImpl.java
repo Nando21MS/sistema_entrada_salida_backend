@@ -19,7 +19,7 @@ public class AccesosServiceImpl implements AccesosService {
 
     @Override
     public List<Accesos> listaPorCodigo(String codigo) {
-        return repository.findByCodigo(codigo);
+        return repository.findByUsuarioRegistrado_Login(codigo);
     }
 
     @Override
