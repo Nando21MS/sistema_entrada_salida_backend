@@ -41,18 +41,18 @@ public class AccesoController {
         String login = (String) session.getAttribute("login");
         List<Accesos> accesos;
 
+        // Si no se proporciona fecha, obtener todos los accesos del usuario
         if (fecha == null || fecha.isEmpty()) {
-            // Si no se proporciona fecha, obtener todos los accesos del usuario
             accesos = accesoService.listaPorCodigo(login);
         } else {
             // Filtrar por fecha
-            Date fechaFiltro = null;
+            Date fechaFiltro;
             try {
                 fechaFiltro = new SimpleDateFormat("yyyy-MM-dd").parse(fecha);
+                accesos = accesoService.listaPorCodigoYFecha(login, fechaFiltro);
             } catch (ParseException e) {
                 return ResponseEntity.badRequest().body("Formato de fecha inválido.");
             }
-            accesos = accesoService.listaPorCodigoYFecha(login, fechaFiltro);
         }
 
         if (accesos.isEmpty()) {
@@ -62,3 +62,4 @@ public class AccesoController {
         return ResponseEntity.ok(accesos);
     }
 }
+
