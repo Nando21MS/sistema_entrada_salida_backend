@@ -19,7 +19,7 @@ import com.centroinformacion.service.UsuarioService;
 import com.centroinformacion.util.AppSettings;
 
 @RestController
-@RequestMapping("/url/mobile")
+@RequestMapping("/url/mobile/auth")
 @CrossOrigin(origins = AppSettings.URL_CROSS_ORIGIN)
 public class MobileAuthController {
 
@@ -31,7 +31,6 @@ public class MobileAuthController {
         // Autenticación del usuario
         Usuario usuario = usuarioService.authenticate(request.getLogin(), request.getPassword());
         if (usuario == null) {
-            System.out.println("Usuario no encontrado o contraseña incorrecta.");
             return ResponseEntity.status(401).body("Credenciales inválidas.");
         }
 
@@ -41,12 +40,20 @@ public class MobileAuthController {
         session.setAttribute("nombres", usuario.getNombres());
         session.setAttribute("apellidos", usuario.getApellidos());
         session.setAttribute("dni", usuario.getDni());
+        session.setAttribute("correo", usuario.getCorreo());
+        session.setAttribute("foto", usuario.getFoto());
+        session.setAttribute("fechaNacimiento", usuario.getFechaNacimiento());
 
-        // Devolver el idUsuario como parte de la respuesta
+
         return ResponseEntity.ok(Map.of(
-            "idUsuario", usuario.getIdUsuario(),
-            "nombres", usuario.getNombres(),
-            "apellidos", usuario.getApellidos()
-        ));
+                "idUsuario", usuario.getIdUsuario(),
+                "nombres", usuario.getNombres(),
+                "apellidos", usuario.getApellidos(),
+                "dni", usuario.getDni(),
+                "correo", usuario.getCorreo(),
+                "foto", usuario.getFoto(),
+            	"fechaNacimiento", usuario.getFechaNacimiento()
+            ));
+
     }
 }
