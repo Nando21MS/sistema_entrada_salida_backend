@@ -7,9 +7,11 @@ import com.centroinformacion.entity.Accesos;
 import com.centroinformacion.entity.Rol;
 
 public interface AccesosService {
-	public abstract List<Accesos> listaPorCodigo(String codigo);
-	public abstract List<Accesos> listaPorRol(Rol rol);
-	public abstract List<Accesos> listaPorFecha(Date fecha);
-	
-	public abstract List<Accesos> listaConsultaCompleja(String codigo, Date fechaDesde,Date fechaHasta,int idRol);
+    List<Accesos> listaPorCodigo(String codigo);
+    List<Accesos> listaPorRol(Rol rol);
+    List<Accesos> listaPorFecha(Date fecha);
+    List<Accesos> listaConsultaCompleja(String codigo, Date fechaDesde, Date fechaHasta, int idRol);
+
+    // Para apartado "Mis Accesos" de la app móvil
+    List<Accesos> listaPorCodigoYFecha(String login, Date fecha);
 }

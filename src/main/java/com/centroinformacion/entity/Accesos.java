@@ -47,7 +47,7 @@ public class Accesos {
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idUsuario")
+	@JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
 	private Usuario usuarioRegistro;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -55,7 +55,7 @@ public class Accesos {
 	private Date fecha_Registro;
 	
 	public String getReporteEstado() {
-		return estado == 1 ? "Ingresó" : "No Ingresó";
+		return estado == 1 ? "Ingreso" : "Salida";
 	}
 	public String getRol() {
 		return rol.getNombre();
@@ -66,4 +66,9 @@ public class Accesos {
 	public String getReporteRol() {
 		return rol.getNombre();
 	}
+	
+	//AGREGAR PARA APARTADO MIS ACCESOS DE APP MOVIL
+	public String getCodigo() {
+        return usuarioRegistro != null ? usuarioRegistro.getLogin() : null;
+    }
 }

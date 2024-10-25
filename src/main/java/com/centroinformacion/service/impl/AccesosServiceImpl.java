@@ -16,7 +16,7 @@ public class AccesosServiceImpl implements AccesosService {
 
     @Autowired
     private AccesosRepository repository;
-    
+
     @Override
     public List<Accesos> listaPorCodigo(String codigo) {
         return repository.findByCodigo(codigo);
@@ -33,8 +33,13 @@ public class AccesosServiceImpl implements AccesosService {
     }
 
     @Override
-	public List<Accesos> listaConsultaCompleja(String codigo, Date fechaDesde, Date fechaHasta,int idRol) {
-		return repository.listaConsultaCompleja(codigo, fechaDesde, fechaHasta, idRol);
-	}
+    public List<Accesos> listaConsultaCompleja(String codigo, Date fechaDesde, Date fechaHasta, int idRol) {
+        return repository.listaConsultaCompleja(codigo, fechaDesde, fechaHasta, idRol);
+    }
 
+    // Para apartado "Mis Accesos" de la app móvil
+    @Override
+    public List<Accesos> listaPorCodigoYFecha(String login, Date fecha) {
+        return repository.findByUsuarioLoginAndFecha(login, fecha);
+    }
 }
