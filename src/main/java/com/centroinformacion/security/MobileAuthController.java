@@ -36,6 +36,7 @@ public class MobileAuthController {
 
         // Crear sesión
         HttpSession session = httpRequest.getSession();
+        session.setAttribute("login", usuario.getLogin());
         session.setAttribute("idUsuario", usuario.getIdUsuario());
         session.setAttribute("nombres", usuario.getNombres());
         session.setAttribute("apellidos", usuario.getApellidos());
@@ -47,6 +48,7 @@ public class MobileAuthController {
 
         return ResponseEntity.ok(Map.of(
                 "idUsuario", usuario.getIdUsuario(),
+                "login", usuario.getLogin(),
                 "nombres", usuario.getNombres(),
                 "apellidos", usuario.getApellidos(),
                 "dni", usuario.getDni(),
