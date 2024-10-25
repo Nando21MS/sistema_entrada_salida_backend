@@ -39,12 +39,14 @@ public class ProveedorController {
 				
 				
 				Proveedor objSalida = proveedorService.registroProveedor(obj);
-				if(objSalida == null) {
-					salida.put("mensaje",AppSettings.MENSAJE_REG_ERROR);
-					
-				}else {
-					salida.put("mensaje",AppSettings.MENSAJE_REG_EXITOSO);
+				if (objSalida == null) {
+				    salida.put("mensaje", "Error al registrar el proveedor");
+				} else {
+				    salida.put("mensaje", "Proveedor registrado con éxito");
+				    salida.put("id", objSalida.getIdProveedor());
+				    salida.put("nroDoc", objSalida.getNroDoc());// Devuelve el ID del proveedor
 				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				salida.put("mensaje", AppSettings.MENSAJE_REG_ERROR);
