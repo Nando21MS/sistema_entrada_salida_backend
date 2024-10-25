@@ -63,4 +63,7 @@ public class Accesos {
 	public String getReporteFecha() {
 		return FunctionUtil.getFechaString(fecha);
 	}
+	public String getReporteRol() {
+		return rol.getNombre();
+	}
 }
